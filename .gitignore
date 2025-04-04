@@ -1,0 +1,9 @@
+.terraform-version
+.terragrunt-version
+
+**/.dnks
+**/.idea
+
+**/.terragrunt-cache
+**/.terraform.lock.hcl
+**/error-signals.json
