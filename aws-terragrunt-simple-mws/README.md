@@ -16,6 +16,6 @@ You can change both according to your needs in the respective provider configura
 - Run the stack with
 ```shell
 cd live
-terragrunt run-all plan
-terragrunt run-all apply
+terragrunt plan --all
+terragrunt apply --all
 ```
