@@ -31,6 +31,10 @@ resource "aws_s3_bucket_policy" "this" {
   bucket      = aws_s3_bucket.this.id
   policy      = data.databricks_aws_bucket_policy.this.json
   depends_on  = [aws_s3_bucket.this]
+
+  lifecycle {
+    ignore_changes = [policy]
+  }
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "this" {

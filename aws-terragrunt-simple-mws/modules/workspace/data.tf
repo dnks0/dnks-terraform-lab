@@ -19,7 +19,7 @@ data "aws_iam_policy_document" "s3-vpc-endpoint-policy" {
   count = 1
 
   statement {
-    sid    = "Grant access to Databricks Root Bucket"
+    sid    = "Grant access to Workspace Root Bucket"
     effect = "Allow"
     actions = [
       "s3:GetObject",
@@ -48,7 +48,7 @@ data "aws_iam_policy_document" "s3-vpc-endpoint-policy" {
   }
 
   statement {
-    sid    = "Grant access to Databricks Unity Catalog Metastore Bucket"
+    sid    = "Grant access to Unity Catalog Workspace Bucket"
     effect = "Allow"
     actions = [
       "s3:GetObject",
@@ -65,8 +65,8 @@ data "aws_iam_policy_document" "s3-vpc-endpoint-policy" {
     }
 
     resources = [
-      "${var.databricks_metastore_bucket_arn}/*",
-      var.databricks_metastore_bucket_arn,
+      "arn:aws:s3:::${var.prefix}-bucket/*",
+      "arn:aws:s3:::${var.prefix}-bucket",
     ]
 
     condition {
@@ -82,7 +82,7 @@ data "aws_iam_policy_document" "s3-vpc-endpoint-policy" {
   }
 
   statement {
-    sid    = "Grant access to Artifact Buckets"
+    sid    = "Grant access to Databricks Artifact Buckets"
     effect = "Allow"
     actions = [
       "s3:ListBucket",
