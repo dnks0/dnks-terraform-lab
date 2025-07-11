@@ -8,7 +8,3 @@ data "databricks_user" "account-admins" {
   for_each  = toset(concat(local.databricks_account_admins))
   user_name = each.key
 }
-
-data "databricks_aws_bucket_policy" "this" {
-  bucket = aws_s3_bucket.this.bucket
-}

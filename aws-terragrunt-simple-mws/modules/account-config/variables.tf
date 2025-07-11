@@ -31,3 +31,9 @@ variable "databricks_account_admins" {
   e.g ["first.admin@domain.com", "second.admin@domain.com"]
   EOT
 }
+
+variable "enable_serverless_connectivity" {
+  type        = bool
+  description = "Flat to provide serverless network connectivity configuration"
+  default     = false
+}

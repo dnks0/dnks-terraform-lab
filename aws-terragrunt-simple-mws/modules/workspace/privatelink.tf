@@ -20,8 +20,32 @@ resource "aws_security_group" "privatelink" {
   }
 
   ingress {
-    description     = "Databricks - PrivateLink Endpoint SG - Future Extendability"
+    description     = "Databricks - PrivateLink Endpoint SG - Secure Cluster Connectivity - Compliance Security Profile"
+    from_port       = 2443
+    to_port         = 2443
+    protocol        = "tcp"
+    security_groups = [aws_security_group.this[0].id]
+  }
+
+  ingress {
+    description     = "Databricks - Internal calls from the Databricks compute plane to the Databricks control plane API"
     from_port       = 8443
+    to_port         = 8443
+    protocol        = "tcp"
+    security_groups = [aws_security_group.this[0].id]
+  }
+
+  ingress {
+    description     = "Databricks - Unity Catalog logging and lineage data streaming into Databricks"
+    from_port       = 8444
+    to_port         = 8444
+    protocol        = "tcp"
+    security_groups = [aws_security_group.this[0].id]
+  }
+
+  ingress {
+    description     = "Databricks - PrivateLink Endpoint SG - Future Extendability"
+    from_port       = 8445
     to_port         = 8451
     protocol        = "tcp"
     security_groups = [aws_security_group.this[0].id]

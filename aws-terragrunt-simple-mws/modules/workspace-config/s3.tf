@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "this" {
-  bucket        = "${var.prefix}-metastore-bucket"
+  bucket        = "${var.prefix}-bucket"
   force_destroy = true
 }
 
@@ -25,12 +25,6 @@ resource "aws_s3_bucket_versioning" "this" {
     status = "Enabled"
   }
   depends_on = [aws_s3_bucket.this]
-}
-
-resource "aws_s3_bucket_policy" "this" {
-  bucket      = aws_s3_bucket.this.id
-  policy      = data.databricks_aws_bucket_policy.this.json
-  depends_on  = [aws_s3_bucket.this]
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "this" {

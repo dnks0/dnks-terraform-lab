@@ -23,11 +23,6 @@ variable "databricks_metastore_ids" {
   description = "Databricks Metastore IDs"
 }
 
-variable "databricks_metastore_bucket_arn" {
-  type        = string
-  description = "Databricks Metastore Bucket ARN"
-}
-
 variable "databricks_account_admin_group_id" {
   type        = string
   description = "Databricks Account Admin group ID"
@@ -126,4 +121,16 @@ variable "region_bucket_name" {
     "us-west-2"      = "oregon"
     # "us-west-1"      = "oregon"
   }
+}
+
+variable "ncc_id" {
+  description = "ID of the network-connectivity-configuration for this workspace"
+  type        = string
+  default     = ""
+}
+
+variable "np_id" {
+  description = "ID of the network policy for this workspace"
+  type        = string
+  default     = ""
 }
