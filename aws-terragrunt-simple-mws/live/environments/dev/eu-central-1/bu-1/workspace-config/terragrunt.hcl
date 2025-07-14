@@ -13,9 +13,11 @@ dependency "account-config" {
   config_path = "../../common/account-config"
 
    mock_outputs = {
-     metastore_id             = "mock-metastore-id"
-     account_admin_group_id   = 00000
-     account_admin_group_name = "mock-group-name"
+     metastore_id                           = "mock-metastore-id"
+     account_admin_group_id                 = 00000
+     account_admin_group_name               = "mock-group-name"
+     network_connectivity_configuration_id  = "mock-ncc-id"
+     network_policy_id                      = "mock-np-id"
    }
 }
 
