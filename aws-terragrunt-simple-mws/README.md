@@ -15,7 +15,7 @@ You can change both according to your needs in the respective provider configura
 - (Optional) Fill the `aws_account_id` in all `environment.hcl` configuration files to match your environments.
 - Run the stack with
 ```shell
-cd live
-terragrunt plan --all
-terragrunt apply --all
+
+terragrunt plan --all --working-dir ./live
+terragrunt apply --all --working-dir ./live
 ```

@@ -22,7 +22,6 @@ have to manually create the following resources for hosting the terraform-states
   - Storage-Container
 - Run the stack with
 ```shell
-cd live
-terragrunt plan --all
-terragrunt apply --all
+terragrunt plan --all --working-dir ./live
+terragrunt apply --all --working-dir ./live
 ```
