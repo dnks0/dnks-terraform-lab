@@ -51,21 +51,21 @@ provider "databricks" {
 EOF
 }
 
-remote_state {
-  backend = "s3"
-  generate = {
-      path    = "backend.tf"
-      if_exists = "overwrite_terragrunt"
-  }
-
-  config = {
-      encrypt = true
-      bucket  = "${local.prefix}-dbx-shared-tf-states"
-      key     = "${path_relative_to_include()}/terraform.tfstate"
-      region  = local.region.name
-      #dynamodb_table  = "shared-terraform-locks"
-  }
-}
+#remote_state {
+#  backend = "s3"
+#  generate = {
+#      path    = "backend.tf"
+#      if_exists = "overwrite_terragrunt"
+#  }
+#
+#  config = {
+#      encrypt = true
+#      bucket  = "${local.prefix}-dbx-shared-tf-states"
+#      key     = "${path_relative_to_include()}/terraform.tfstate"
+#      region  = local.region.name
+#      #dynamodb_table  = "shared-terraform-locks"
+#  }
+#}
 
 errors {
   # ignore block for known safe-to-ignore errors

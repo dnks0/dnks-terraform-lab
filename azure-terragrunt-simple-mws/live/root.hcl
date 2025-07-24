@@ -46,23 +46,23 @@ provider "databricks" {
 EOF
 }
 
-remote_state {
-  backend = "azurerm"
-  generate = {
-      path    = "backend.tf"
-      if_exists = "overwrite_terragrunt"
-  }
-  config = {
-    client_id             = local.arm_client_id
-    client_secret         = local.arm_client_secret
-    subscription_id       = local.arm_subscription_id
-    tenant_id             = local.arm_tenant_id
-    resource_group_name   = "${local.prefix}-dbx-tf"        # create resource-group manually!
-    storage_account_name  = "dbxsharedtfstates"             # create storage-account manually!
-    container_name        = "terraform-states"              # create storage-container manually!
-    key                   = "${path_relative_to_include()}/terraform.tfstate"
-  }
-}
+#remote_state {
+#  backend = "azurerm"
+#  generate = {
+#      path    = "backend.tf"
+#      if_exists = "overwrite_terragrunt"
+#  }
+#  config = {
+#    client_id             = local.arm_client_id
+#    client_secret         = local.arm_client_secret
+#    subscription_id       = local.arm_subscription_id
+#    tenant_id             = local.arm_tenant_id
+#    resource_group_name   = "${local.prefix}-dbx-tf"        # create resource-group manually!
+#    storage_account_name  = "dbxsharedtfstates"             # create storage-account manually!
+#    container_name        = "terraform-states"              # create storage-container manually!
+#    key                   = "${path_relative_to_include()}/terraform.tfstate"
+#  }
+#}
 
 errors {
   # ignore block for known safe-to-ignore errors

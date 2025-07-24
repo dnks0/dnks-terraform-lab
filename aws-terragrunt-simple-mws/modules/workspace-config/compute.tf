@@ -8,7 +8,7 @@ resource "databricks_cluster" "default-classic-single-node" {
     "spark.databricks.cluster.profile" : "singleNode"
     "spark.master" : "local[*]"
   }
-  data_security_mode = "SINGLE_USER"
+  data_security_mode = "USER_ISOLATION"
 
   custom_tags = {
     "ResourceClass" = "SingleNode"
