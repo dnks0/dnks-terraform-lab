@@ -6,5 +6,4 @@ resource "databricks_system_schema" "this" {
   lifecycle {
     prevent_destroy = true
   }
-
 }

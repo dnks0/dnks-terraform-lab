@@ -11,6 +11,7 @@ data "databricks_aws_assume_role_policy" "this" {
 data "databricks_aws_crossaccount_policy" "this" {}
 
 data "databricks_aws_bucket_policy" "this" {
+  databricks_e2_account_id = var.databricks_account_id
   bucket = aws_s3_bucket.this.bucket
 }
 

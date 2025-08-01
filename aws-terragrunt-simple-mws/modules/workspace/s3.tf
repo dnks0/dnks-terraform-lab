@@ -3,13 +3,6 @@ resource "aws_s3_bucket" "this" {
   force_destroy = true
 }
 
-resource "aws_s3_bucket_ownership_controls" "root" {
-  bucket = aws_s3_bucket.this.bucket
-  rule {
-    object_ownership = "BucketOwnerEnforced"
-  }
-}
-
 resource "aws_s3_bucket_public_access_block" "this" {
   bucket             = aws_s3_bucket.this.id
   block_public_acls       = true
@@ -22,7 +15,7 @@ resource "aws_s3_bucket_public_access_block" "this" {
 resource "aws_s3_bucket_versioning" "this" {
   bucket = aws_s3_bucket.this.id
   versioning_configuration {
-    status = "Enabled"
+    status = "Disabled"
   }
   depends_on = [aws_s3_bucket.this]
 }
@@ -30,7 +23,7 @@ resource "aws_s3_bucket_versioning" "this" {
 resource "aws_s3_bucket_policy" "this" {
   bucket      = aws_s3_bucket.this.id
   policy      = data.databricks_aws_bucket_policy.this.json
-  depends_on  = [aws_s3_bucket.this]
+  depends_on  = [aws_s3_bucket_public_access_block.this]
 
   lifecycle {
     ignore_changes = [policy]
