@@ -13,6 +13,7 @@ resource "databricks_cluster" "default-classic-single-node" {
   custom_tags = {
     "ResourceClass" = "SingleNode"
   }
+  no_wait                 = true
 }
 
 resource "databricks_sql_endpoint" "default-serverless-warehouse-small" {
