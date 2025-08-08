@@ -38,5 +38,4 @@ inputs = {
   admin_group     = dependency.account-config.outputs.account_admin_group_name
   workspace_host  = dependency.workspace.outputs.workspace_host
   workspace_name  = dependency.workspace.outputs.workspace_name
-  system_schemas  = ["access", "billing", "compute", "lakeflow", "marketplace", "storage", "query", "serving"]
 }

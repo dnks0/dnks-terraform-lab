@@ -24,19 +24,21 @@ resource "databricks_external_location" "this" {
 }
 
 resource "databricks_catalog" "this" {
-  name      = replace(var.business_unit, "-", "_")
-  provider  = databricks.workspace
-  comment = "Default catalog of workspace ${var.workspace_name}"
-  isolation_mode = "ISOLATED"
-  storage_root = "s3://${aws_s3_bucket.this.bucket}/"
-  depends_on = [aws_s3_bucket.this, databricks_storage_credential.this, databricks_external_location.this]
+  name            = replace(var.business_unit, "-", "_")
+  provider        = databricks.workspace
+  comment         = "Default catalog of workspace ${var.workspace_name}"
+  isolation_mode  = "ISOLATED"
+  storage_root    = "s3://${aws_s3_bucket.this.bucket}/"
+  force_destroy   = true
+  depends_on      = [aws_s3_bucket.this, databricks_storage_credential.this, databricks_external_location.this]
 }
 
 resource "databricks_schema" "this" {
-  provider     = databricks.workspace
-  catalog_name = databricks_catalog.this.id
-  name         = "default"
-  comment      = "Default schema"
+  provider      = databricks.workspace
+  catalog_name  = databricks_catalog.this.id
+  name          = "default"
+  comment       = "Default schema"
+  force_destroy = true
 }
 
 resource "databricks_default_namespace_setting" "this" {

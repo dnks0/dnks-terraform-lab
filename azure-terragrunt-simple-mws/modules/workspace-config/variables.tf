@@ -33,12 +33,6 @@ variable "workspace_name" {
   description = "Workspace Name"
 }
 
-variable "system_schemas" {
-  type        = list(string)
-  description = "List of system schemas to enable"
-  default  = ["access", "billing", "compute", "lakeflow", "marketplace", "storage", "query", "serving"]
-}
-
 variable "azure_resource_group_name" {
   type        = string
   description = "Name of the Azure resource group"

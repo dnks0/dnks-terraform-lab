@@ -27,9 +27,3 @@ variable "workspace_name" {
   type        = string
   description = "Workspace Name"
 }
-
-variable "system_schemas" {
-  type        = list(string)
-  description = "List of system schemas to enable"
-  default  = ["access", "billing", "compute", "lakeflow", "marketplace", "storage", "query", "serving"]
-}
