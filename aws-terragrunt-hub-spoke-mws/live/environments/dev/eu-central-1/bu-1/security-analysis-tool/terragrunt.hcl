@@ -21,8 +21,8 @@ dependency "account-config" {
    }
 }
 
-dependency "workspace" {
-  config_path = "../workspace"
+dependency "spoke-workspace" {
+  config_path = "../spoke-workspace"
 
    mock_outputs = {
      workspace_id   = "mock-workspace-id"
@@ -44,7 +44,7 @@ inputs = {
   databricks_account_id             = include.root.locals.databricks_account_id
   databricks_account_client_id      = include.root.locals.databricks_account_client_id
   databricks_account_client_secret  = include.root.locals.databricks_account_client_secret
-  workspace_host                    = dependency.workspace.outputs.workspace_host
+  workspace_host                    = dependency.spoke-workspace.outputs.workspace_host
   sql_warehouse_id                  = dependency.workspace-config.outputs.sql_warehouse_id
   catalog                           = dependency.workspace-config.outputs.catalog
   admin_group                       = dependency.account-config.outputs.account_admin_group_name
