@@ -20,7 +20,13 @@ resource "databricks_external_location" "this" {
   url             = "s3://${aws_s3_bucket.this.bucket}/"
   credential_name = databricks_storage_credential.this.id
   comment         = "External location for workspace ${var.workspace_name}"
-  depends_on      = [aws_iam_policy_attachment.this, time_sleep.wait_30_seconds, databricks_storage_credential.this]
+  force_destroy   = true
+  depends_on      = [
+    aws_iam_policy_attachment.this,
+    time_sleep.wait_30_seconds,
+    databricks_storage_credential.this,
+    aws_s3_bucket.this,
+  ]
 }
 
 resource "databricks_catalog" "this" {

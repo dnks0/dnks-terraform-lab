@@ -12,7 +12,12 @@ resource "databricks_external_location" "this" {
   url             = "abfss://${azurerm_storage_container.this.name}@${azurerm_storage_account.this.primary_dfs_host}/"
   credential_name = databricks_storage_credential.this.id
   comment         = "External location for workspace ${var.workspace_name}"
-  depends_on      = [databricks_storage_credential.this]
+  force_destroy   = true
+  depends_on      = [
+    databricks_storage_credential.this,
+    azurerm_storage_container.this,
+    azurerm_storage_account.this,
+  ]
 }
 
 resource "databricks_catalog" "this" {
