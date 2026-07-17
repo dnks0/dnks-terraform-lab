@@ -25,20 +25,22 @@ dependency "workspace" {
   config_path = "../workspace"
 
    mock_outputs = {
-     workspace_id               = "mock-workspace-id"
-     workspace_host             = "https://mock.workspace.host"
-     workspace_name             = "mock-workspace-name"
-     azure_resource_group_name  = "mock-resourge-group-name"
+     workspace_id                                 = "mock-workspace-id"
+     workspace_host                               = "https://mock.workspace.host"
+     workspace_name                               = "mock-workspace-name"
+     azure_resource_group_name                    = "mock-resourge-group-name"
+     azure_network_security_perimeter_profile_id  = "mock-network-security-perimeter-profile-id"
    }
 }
 
 inputs = {
-  prefix                    = "${include.root.locals.prefix}-${include.root.locals.environment.name}-${include.root.locals.business_unit.name}-dbx"
-  region                    = include.root.locals.region.name
-  tags                      = include.root.locals.default_tags
-  business_unit             = include.root.locals.business_unit.name
-  admin_group               = dependency.account-config.outputs.account_admin_group_name
-  workspace_host            = dependency.workspace.outputs.workspace_host
-  workspace_name            = dependency.workspace.outputs.workspace_name
-  azure_resource_group_name = dependency.workspace.outputs.azure_resource_group_name
+  prefix                                      = "${include.root.locals.prefix}-${include.root.locals.environment.name}-${include.root.locals.business_unit.name}-dbx"
+  region                                      = include.root.locals.region.name
+  tags                                        = include.root.locals.default_tags
+  business_unit                               = include.root.locals.business_unit.name
+  admin_group                                 = dependency.account-config.outputs.account_admin_group_name
+  workspace_host                              = dependency.workspace.outputs.workspace_host
+  workspace_name                              = dependency.workspace.outputs.workspace_name
+  azure_resource_group_name                   = dependency.workspace.outputs.azure_resource_group_name
+  azure_network_security_perimeter_profile_id = dependency.workspace.outputs.azure_network_security_perimeter_profile_id
 }

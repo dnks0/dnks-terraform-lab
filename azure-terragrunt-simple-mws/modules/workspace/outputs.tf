@@ -13,3 +13,7 @@ output "workspace_name" {
 output "azure_resource_group_name" {
   value = azurerm_resource_group.this.name
 }
+
+output "azure_network_security_perimeter_profile_id" {
+  value = azurerm_network_security_perimeter_profile.this.id
+}
