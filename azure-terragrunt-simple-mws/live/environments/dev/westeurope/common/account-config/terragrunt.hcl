@@ -9,6 +9,10 @@ terraform {
   # source = "git::git@github.com:path/to/repo.git//path/to/module?ref=v0.0.1"
 }
 
+locals {
+  flags = merge(include.root.locals.feature_flags, {})
+}
+
 inputs = {
   prefix                          = "${include.root.locals.prefix}-dbx"
   region                          = include.root.locals.region.name
@@ -16,5 +20,5 @@ inputs = {
   databricks_account_id           = include.root.locals.databricks_account_id
   arm_client_id                   = include.root.locals.arm_client_id
   databricks_account_admins       = ["dominik.schuessele@databricks.com"]  # add account-admins if required! default will use the current service-principal used for deployments
-  enable_serverless_connectivity  = false
+  enable_serverless_connectivity  = local.flags.enable_serverless_connectivity
 }

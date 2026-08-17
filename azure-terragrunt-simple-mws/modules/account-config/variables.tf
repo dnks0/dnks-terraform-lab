@@ -5,7 +5,7 @@ variable "prefix" {
 
 variable "region" {
   type        = string
-  description = "The AWS region to deploy to"
+  description = "The Azure region to deploy to"
 }
 
 variable "tags" {
@@ -34,6 +34,6 @@ variable "databricks_account_admins" {
 
 variable "enable_serverless_connectivity" {
   type        = bool
-  description = "Flat to provide serverless network connectivity configuration"
+  description = "Flag to provision the serverless network connectivity config (NCC) and account network policy"
   default     = false
 }

@@ -6,6 +6,7 @@ resource "databricks_mws_network_connectivity_config" "this" {
 }
 
 resource "databricks_account_network_policy" "this" {
+  count             = var.enable_serverless_connectivity ? 1 : 0
   provider          = databricks.mws
   account_id        = var.databricks_account_id
   network_policy_id = "${var.prefix}-np" # Must not be more than 32 characters.
