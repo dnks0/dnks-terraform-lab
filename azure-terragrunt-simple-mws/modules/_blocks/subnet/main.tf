@@ -19,14 +19,17 @@ resource "azurerm_subnet" "this" {
   }
 }
 
+# Associations are gated on explicit booleans (known at plan time) rather than on the
+# target IDs, which may be unknown until apply (e.g. an NSG created in the same run or a
+# NAT ID passed from a dependency). Gating on the IDs would raise "Invalid count argument".
 resource "azurerm_subnet_network_security_group_association" "this" {
-  count                     = var.network_security_group_id == null ? 0 : 1
+  count                     = var.associate_network_security_group ? 1 : 0
   subnet_id                 = azurerm_subnet.this.id
   network_security_group_id = var.network_security_group_id
 }
 
 resource "azurerm_subnet_nat_gateway_association" "this" {
-  count          = var.nat_gateway_id == null ? 0 : 1
+  count          = var.associate_nat_gateway ? 1 : 0
   subnet_id      = azurerm_subnet.this.id
   nat_gateway_id = var.nat_gateway_id
 }

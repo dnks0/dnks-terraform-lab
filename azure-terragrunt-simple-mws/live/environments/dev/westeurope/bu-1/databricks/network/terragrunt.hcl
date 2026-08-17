@@ -33,6 +33,7 @@ inputs = {
   resource_group_name                  = dependency.network.outputs.resource_group_name
   virtual_network_name                 = dependency.network.outputs.vnet_name
   virtual_network_id                   = dependency.network.outputs.vnet_id
+  enable_nat_gateway                   = local.flags.enable_nat_gateway
   nat_gateway_id                       = dependency.network.outputs.nat_gateway_id
   container_subnet_cidrs               = ["10.0.0.0/22"]
   host_subnet_cidrs                    = ["10.0.4.0/22"]

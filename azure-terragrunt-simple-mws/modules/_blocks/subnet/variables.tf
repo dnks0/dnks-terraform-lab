@@ -28,14 +28,26 @@ variable "delegation" {
   default     = null
 }
 
+variable "associate_network_security_group" {
+  type        = bool
+  description = "(Optional) Whether to associate an NSG with this subnet. Gated separately from the ID because the ID may be unknown at plan time."
+  default     = false
+}
+
 variable "network_security_group_id" {
   type        = string
-  description = "(Optional) NSG to associate with this subnet. Null for no association."
+  description = "(Optional) NSG to associate with this subnet. Used only when associate_network_security_group is true."
   default     = null
+}
+
+variable "associate_nat_gateway" {
+  type        = bool
+  description = "(Optional) Whether to associate a NAT gateway with this subnet. Gated separately from the ID because the ID may be unknown at plan time."
+  default     = false
 }
 
 variable "nat_gateway_id" {
   type        = string
-  description = "(Optional) NAT gateway to associate with this subnet. Null for no association."
+  description = "(Optional) NAT gateway to associate with this subnet. Used only when associate_nat_gateway is true."
   default     = null
 }

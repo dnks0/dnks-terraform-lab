@@ -30,9 +30,15 @@ variable "virtual_network_id" {
   description = "ID of the BU virtual network (for DNS zone links)"
 }
 
+variable "enable_nat_gateway" {
+  type        = bool
+  description = "Whether a NAT gateway exists (in the network unit) to associate Databricks subnets with. Must match the network unit's flag; known at plan time."
+  default     = true
+}
+
 variable "nat_gateway_id" {
   type        = string
-  description = "NAT gateway ID to associate Databricks subnets with; empty string to skip"
+  description = "NAT gateway ID to associate Databricks subnets with; empty string when disabled"
   default     = ""
 }
 

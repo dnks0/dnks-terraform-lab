@@ -38,6 +38,9 @@ locals {
 
   nat_gateway_id = var.nat_gateway_id != "" ? var.nat_gateway_id : null
 
+  # Databricks subnets always get the NSG; NAT association follows the (plan-time) flag.
+  associate_nat_gateway = var.enable_nat_gateway
+
   # Only create the private DNS zones actually consumed by an enabled private endpoint:
   #  - backend zone: workspace backend PE (enable_backend_privatelink)
   #  - dfs/blob zones: workspace backend PE OR storage external-location PE
@@ -61,25 +64,29 @@ module "nsg" {
 }
 
 module "container_subnet" {
-  source                    = "../_blocks/subnet"
-  name                      = "${var.prefix}-container-snt"
-  resource_group_name       = var.resource_group_name
-  virtual_network_name      = var.virtual_network_name
-  address_prefixes          = var.container_subnet_cidrs
-  delegation                = local.databricks_delegation
-  network_security_group_id = module.nsg.id
-  nat_gateway_id            = local.nat_gateway_id
+  source                           = "../_blocks/subnet"
+  name                             = "${var.prefix}-container-snt"
+  resource_group_name              = var.resource_group_name
+  virtual_network_name             = var.virtual_network_name
+  address_prefixes                 = var.container_subnet_cidrs
+  delegation                       = local.databricks_delegation
+  associate_network_security_group = true
+  network_security_group_id        = module.nsg.id
+  associate_nat_gateway            = local.associate_nat_gateway
+  nat_gateway_id                   = local.nat_gateway_id
 }
 
 module "host_subnet" {
-  source                    = "../_blocks/subnet"
-  name                      = "${var.prefix}-host-snt"
-  resource_group_name       = var.resource_group_name
-  virtual_network_name      = var.virtual_network_name
-  address_prefixes          = var.host_subnet_cidrs
-  delegation                = local.databricks_delegation
-  network_security_group_id = module.nsg.id
-  nat_gateway_id            = local.nat_gateway_id
+  source                           = "../_blocks/subnet"
+  name                             = "${var.prefix}-host-snt"
+  resource_group_name              = var.resource_group_name
+  virtual_network_name             = var.virtual_network_name
+  address_prefixes                 = var.host_subnet_cidrs
+  delegation                       = local.databricks_delegation
+  associate_network_security_group = true
+  network_security_group_id        = module.nsg.id
+  associate_nat_gateway            = local.associate_nat_gateway
+  nat_gateway_id                   = local.nat_gateway_id
 }
 
 module "privatelink_subnet" {
