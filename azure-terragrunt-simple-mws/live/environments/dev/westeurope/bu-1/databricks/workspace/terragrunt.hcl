@@ -26,8 +26,8 @@ dependency "account-config" {
   }
 }
 
-dependency "network" {
-  config_path = "../../network"
+dependency "databricks_network" {
+  config_path = "../network"
 
   mock_outputs = {
     resource_group_name = "mock-resource-group-name"
@@ -44,8 +44,6 @@ dependency "network" {
       dfs     = "mock-dfs-zone-id"
       blob    = "mock-blob-zone-id"
     }
-    extra_subnet_ids = {}
-    nat_gateway_id   = "mock-nat-id"
   }
 }
 
@@ -56,9 +54,9 @@ inputs = {
   databricks_account_id             = include.root.locals.databricks_account_id
   databricks_metastore_ids          = [dependency.account-config.outputs.metastore_id]
   databricks_account_admin_group_id = dependency.account-config.outputs.account_admin_group_id
-  resource_group_name               = dependency.network.outputs.resource_group_name
-  network_configuration             = dependency.network.outputs.network_configuration
-  dns_zone_ids                      = dependency.network.outputs.dns_zone_ids
+  resource_group_name               = dependency.databricks_network.outputs.resource_group_name
+  network_configuration             = dependency.databricks_network.outputs.network_configuration
+  dns_zone_ids                      = dependency.databricks_network.outputs.dns_zone_ids
   enable_backend_privatelink        = local.flags.enable_backend_privatelink
   ncc_id                            = dependency.account-config.outputs.network_connectivity_configuration_id
   np_id                             = dependency.account-config.outputs.network_policy_id

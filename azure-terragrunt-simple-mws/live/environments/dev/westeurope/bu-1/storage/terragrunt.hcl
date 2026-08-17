@@ -14,8 +14,8 @@ locals {
   flags = merge(include.root.locals.feature_flags, {})
 }
 
-dependency "network" {
-  config_path = "../network"
+dependency "databricks_network" {
+  config_path = "../databricks/network"
 
   mock_outputs = {
     resource_group_name = "mock-resource-group-name"
@@ -32,8 +32,6 @@ dependency "network" {
       dfs     = "mock-dfs-zone-id"
       blob    = "mock-blob-zone-id"
     }
-    extra_subnet_ids = {}
-    nat_gateway_id   = "mock-nat-id"
   }
 }
 
@@ -41,11 +39,11 @@ inputs = {
   prefix                               = "${include.root.locals.prefix}-${include.root.locals.environment.name}-${include.root.locals.business_unit.name}-dbx"
   region                               = include.root.locals.region.name
   tags                                 = include.root.locals.default_tags
-  resource_group_name                  = dependency.network.outputs.resource_group_name
-  privatelink_subnet_id                = dependency.network.outputs.network_configuration.privatelink_subnet_id
+  resource_group_name                  = dependency.databricks_network.outputs.resource_group_name
+  privatelink_subnet_id                = dependency.databricks_network.outputs.network_configuration.privatelink_subnet_id
   dns_zone_ids = {
-    dfs  = dependency.network.outputs.dns_zone_ids.dfs
-    blob = dependency.network.outputs.dns_zone_ids.blob
+    dfs  = dependency.databricks_network.outputs.dns_zone_ids.dfs
+    blob = dependency.databricks_network.outputs.dns_zone_ids.blob
   }
   enable_external_location_privatelink = local.flags.enable_external_location_privatelink
 }

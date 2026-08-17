@@ -27,27 +27,12 @@ variable "vnet_cidrs" {
   }
 }
 
-variable "container_subnet_cidrs" {
-  type        = list(string)
-  description = "(Required) The CIDR blocks for the container (private) subnet"
-}
-
-variable "host_subnet_cidrs" {
-  type        = list(string)
-  description = "(Required) The CIDR blocks for the host (public) subnet"
-}
-
-variable "privatelink_subnet_cidrs" {
-  type        = list(string)
-  description = "(Required) The CIDR blocks for the privatelink subnet"
-}
-
 variable "extra_subnets" {
   type = map(object({
     address_prefixes = list(string)
   }))
   description = <<EOT
-  (Optional) Additional subnets to create in the VNet for non-Databricks workloads.
+  (Optional) Generic subnets to create in the VNet for non-Databricks workloads.
   Keyed by a short name; the subnet is named "$${prefix}-$${key}-snt". No delegation,
   NSG or NAT association is applied — wire those from the consuming workload.
   EOT
@@ -56,6 +41,6 @@ variable "extra_subnets" {
 
 variable "enable_nat_gateway" {
   type        = bool
-  description = "(Optional) Create a NAT gateway and associate the Databricks subnets with it"
+  description = "(Optional) Create a NAT gateway for the VNet (associated to Databricks subnets by databricks_network)"
   default     = true
 }
