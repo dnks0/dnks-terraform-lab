@@ -15,7 +15,7 @@ locals {
 }
 
 dependency "account-config" {
-  config_path = "../../common/account-config"
+  config_path = "../../../common/account-config"
 
   mock_outputs = {
     metastore_id                          = "mock-metastore-id"
@@ -27,7 +27,7 @@ dependency "account-config" {
 }
 
 dependency "network" {
-  config_path = "../network"
+  config_path = "../../network"
 
   mock_outputs = {
     resource_group_name = "mock-resource-group-name"
