@@ -1,17 +1,5 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-    }
-
-    databricks = {
-      source = "databricks/databricks"
-    }
-  }
-}
-
+# The workspace-scoped databricks provider. Authentication configured via env.
 provider "databricks" {
-  # authentication configured via env!
-  alias   = "workspace"
-  host    = var.workspace_host
+  alias = "workspace"
+  host  = var.workspace_host
 }
