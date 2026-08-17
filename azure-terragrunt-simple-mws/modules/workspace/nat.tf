@@ -11,7 +11,7 @@ resource "azurerm_public_ip" "this" {
   location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
   allocation_method   = "Static"
-  sku                 = "Standard"
+  sku                 = "StandardV2"
   tags     = var.tags
   lifecycle {
     ignore_changes = [tags]

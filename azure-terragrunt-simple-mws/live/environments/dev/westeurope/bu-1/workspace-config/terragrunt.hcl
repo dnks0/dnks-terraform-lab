@@ -29,7 +29,6 @@ dependency "workspace" {
      workspace_host                               = "https://mock.workspace.host"
      workspace_name                               = "mock-workspace-name"
      azure_resource_group_name                    = "mock-resourge-group-name"
-     azure_network_security_perimeter_profile_id  = "mock-network-security-perimeter-profile-id"
    }
 }
 
@@ -42,5 +41,4 @@ inputs = {
   workspace_host                              = dependency.workspace.outputs.workspace_host
   workspace_name                              = dependency.workspace.outputs.workspace_name
   azure_resource_group_name                   = dependency.workspace.outputs.azure_resource_group_name
-  azure_network_security_perimeter_profile_id = dependency.workspace.outputs.azure_network_security_perimeter_profile_id
 }

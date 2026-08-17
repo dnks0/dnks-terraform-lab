@@ -37,8 +37,3 @@ variable "azure_resource_group_name" {
   type        = string
   description = "Name of the Azure resource group"
 }
-
-variable "nsp_profile_id" {
-  type        = string
-  description = "ID of the Network-Security-Perimeter Profile to use to secure storage."
-}
