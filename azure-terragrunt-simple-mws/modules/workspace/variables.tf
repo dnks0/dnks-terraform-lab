@@ -5,7 +5,7 @@ variable "prefix" {
 
 variable "region" {
   type        = string
-  description = "The AWS region to deploy to"
+  description = "The Azure region to deploy to"
 }
 
 variable "tags" {
@@ -28,34 +28,36 @@ variable "databricks_account_admin_group_id" {
   description = "Databricks Account Admin group ID"
 }
 
-variable "vnet_cidrs" {
-  type        = list(string)
-  description = "(Required) The CIDR blocks for the Virtual Network"
-
-  # Add validation for the CIDR block
-  validation {
-    condition     = length([
-      for cidr in var.vnet_cidrs : true
-      if tonumber(split("/", cidr)[1]) > 15 && tonumber(split("/", cidr)[1]) < 25
-    ]) == length(var.vnet_cidrs)
-
-    error_message = "CIDR blocks must be betweem /16 and /24, inclusive"
-  }
+variable "resource_group_name" {
+  type        = string
+  description = "Name of the (BU-owned) resource group to deploy the workspace into"
 }
 
-variable "container_subnet_cidrs" {
-  type        = list(string)
-  description = "(Required) The CIDR blocks for the container subnet"
+variable "network_configuration" {
+  type = object({
+    virtual_network_id                  = string
+    host_subnet_name                    = string
+    container_subnet_name               = string
+    privatelink_subnet_id               = string
+    host_subnet_nsg_association_id      = string
+    container_subnet_nsg_association_id = string
+  })
+  description = "Network wiring supplied by the network unit"
 }
 
-variable "host_subnet_cidrs" {
-  type        = list(string)
-  description = "(Required) The CIDR blocks for the host subnet"
+variable "dns_zone_ids" {
+  type = object({
+    backend = string
+    dfs     = string
+    blob    = string
+  })
+  description = "Private DNS zone IDs supplied by the network unit"
 }
 
-variable "privatelink_subnet_cidrs" {
-  type        = list(string)
-  description = "(Required) The CIDR blocks for the privatelink subnet"
+variable "enable_backend_privatelink" {
+  type        = bool
+  description = "Create backend Private Link endpoints (ui/api + dfs + blob)"
+  default     = true
 }
 
 variable "ncc_id" {

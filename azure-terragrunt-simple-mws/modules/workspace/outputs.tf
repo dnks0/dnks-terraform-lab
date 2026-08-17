@@ -10,6 +10,8 @@ output "workspace_name" {
   value = "${var.prefix}-workspace"
 }
 
+# Pass-through: the RG is now owned by the network unit and supplied as an input.
+# Kept as an output so downstream units (workspace-config, sat) consume it unchanged.
 output "azure_resource_group_name" {
-  value = azurerm_resource_group.this.name
+  value = var.resource_group_name
 }
