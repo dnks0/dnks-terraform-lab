@@ -1,6 +1,10 @@
 # azure-terragrunt-simple-mws — modularization & feature-flag plan
 
-**Status:** design agreed, implementation not started. No `.tf`/`.hcl` changed yet (only this doc).
+**Status:** IMPLEMENTED (all 8 steps) on branch `feature/azure-simple-modularization`. Validated via
+`terragrunt validate` per unit + full-stack DAG check (no cycles); real apply pending Azure credentials.
+Final layout: 7 units — `common/account-config`, `bu-1/network`, `bu-1/storage`,
+`bu-1/databricks/{workspace,workspace-config,uc}`, `bu-1/security-analysis-tool` — over Tier-1 `_blocks`
+(resource_group, vnet, nsg, nat, subnet, dns_zone, private_endpoint) + pattern modules.
 
 This supersedes the earlier flat "count-gated files in one workspace module" draft. The stack is being
 repositioned from a Databricks-only lab toward a **BU landing-zone reference**: a `bu-X` folder should be
