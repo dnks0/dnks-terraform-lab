@@ -1,10 +1,16 @@
 # azure-terragrunt-simple-mws — modularization & feature-flag plan
 
-**Status:** IMPLEMENTED (all 8 steps) on branch `feature/azure-simple-modularization`. Validated via
-`terragrunt validate` per unit + full-stack DAG check (no cycles); real apply pending Azure credentials.
-Final layout: 7 units — `common/account-config`, `bu-1/network`, `bu-1/storage`,
+**Status:** IMPLEMENTED on branch `feature/azure-simple-modularization`. Validated via `terragrunt validate`
+per unit + full-stack DAG check (no cycles); real apply pending Azure credentials.
+Final layout: 8 units — `common/account-config`, `bu-1/network` (generic: RG/vnet/NAT/extra_subnets),
+`bu-1/databricks/network` (Databricks: NSG+egress rules, delegated subnets, DNS zones), `bu-1/storage`,
 `bu-1/databricks/{workspace,workspace-config,uc}`, `bu-1/security-analysis-tool` — over Tier-1 `_blocks`
 (resource_group, vnet, nsg, nat, subnet, dns_zone, private_endpoint) + pattern modules.
+
+Post-plan fix: the original single `network` unit was Databricks-centric but sat at BU root, and its private
+DNS zones were created unconditionally (ignoring the PL flags). Split into a generic `network` unit and a
+Databricks-scoped `databricks/network` unit; DNS zones now gated (backend on enable_backend_privatelink;
+dfs/blob on backend OR external_location PL). DAG: network -> databricks/network -> {storage, workspace} -> uc -> ... -> sat.
 
 This supersedes the earlier flat "count-gated files in one workspace module" draft. The stack is being
 repositioned from a Databricks-only lab toward a **BU landing-zone reference**: a `bu-X` folder should be
