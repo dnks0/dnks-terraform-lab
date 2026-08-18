@@ -3,17 +3,8 @@
 # optional dfs/blob private endpoints. Data lives here and outlives any single workspace,
 # hence its own state. The UC objects (credential/external-location/catalog) live in the
 # `uc` unit and consume this module's outputs.
-
-data "http" "deployer_ip" {
-  url = "https://ifconfig.co/json"
-  request_headers = {
-    Accept = "application/json"
-  }
-}
-
-locals {
-  deployer_ip = jsondecode(data.http.deployer_ip.response_body).ip
-}
+#
+# Data sources live in data.tf; derived values in locals.tf.
 
 resource "azurerm_databricks_access_connector" "this" {
   name                = "${var.prefix}-dbx-mi"
