@@ -4,7 +4,7 @@ include "root" {
 }
 
 terraform {
-  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules/uc"
+  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules/databricks/uc"
   # Deploy versions via git
   # source = "git::git@github.com:path/to/repo.git//path/to/module?ref=v0.0.1"
 }
@@ -33,7 +33,7 @@ dependency "workspace" {
 }
 
 dependency "storage" {
-  config_path = "../../storage"
+  config_path = "../storage"
 
   mock_outputs = {
     access_connector_id      = "mock-access-connector-id"

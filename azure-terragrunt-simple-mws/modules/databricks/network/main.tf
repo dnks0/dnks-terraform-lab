@@ -7,7 +7,7 @@
 # Derived values (delegation, NSG rules, DNS zone set) live in locals.tf.
 
 module "nsg" {
-  source              = "../_blocks/nsg"
+  source              = "../../_blocks/nsg"
   name                = "${var.prefix}-nsg"
   location            = var.region
   resource_group_name = var.resource_group_name
@@ -16,7 +16,7 @@ module "nsg" {
 }
 
 module "container_subnet" {
-  source                           = "../_blocks/subnet"
+  source                           = "../../_blocks/subnet"
   name                             = "${var.prefix}-container-snt"
   resource_group_name              = var.resource_group_name
   virtual_network_name             = var.virtual_network_name
@@ -29,7 +29,7 @@ module "container_subnet" {
 }
 
 module "host_subnet" {
-  source                           = "../_blocks/subnet"
+  source                           = "../../_blocks/subnet"
   name                             = "${var.prefix}-host-snt"
   resource_group_name              = var.resource_group_name
   virtual_network_name             = var.virtual_network_name
@@ -42,7 +42,7 @@ module "host_subnet" {
 }
 
 module "privatelink_subnet" {
-  source               = "../_blocks/subnet"
+  source               = "../../_blocks/subnet"
   name                 = "${var.prefix}-privatelink-snt"
   resource_group_name  = var.resource_group_name
   virtual_network_name = var.virtual_network_name
@@ -50,7 +50,7 @@ module "privatelink_subnet" {
 }
 
 module "dns_zone" {
-  source              = "../_blocks/dns_zone"
+  source              = "../../_blocks/dns_zone"
   for_each            = local.dns_zones
   zone_name           = each.value
   link_name           = "${var.prefix}-${each.key}-vnl"

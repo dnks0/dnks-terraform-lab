@@ -72,7 +72,7 @@ resource "azurerm_role_assignment" "event_contrib" {
 }
 
 module "dfs_private_endpoint" {
-  source                         = "../_blocks/private_endpoint"
+  source                         = "../../_blocks/private_endpoint"
   count                          = var.enable_external_location_privatelink ? 1 : 0
   name                           = "${var.prefix}-extlctn-dfs-pep"
   location                       = var.region
@@ -87,7 +87,7 @@ module "dfs_private_endpoint" {
 }
 
 module "blob_private_endpoint" {
-  source                         = "../_blocks/private_endpoint"
+  source                         = "../../_blocks/private_endpoint"
   count                          = var.enable_external_location_privatelink ? 1 : 0
   name                           = "${var.prefix}-extlctn-blob-pep"
   location                       = var.region

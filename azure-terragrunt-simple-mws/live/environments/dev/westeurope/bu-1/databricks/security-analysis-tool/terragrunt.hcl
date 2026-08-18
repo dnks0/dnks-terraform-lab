@@ -4,13 +4,13 @@ include "root" {
 }
 
 terraform {
-  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules/security-analysis-tool"
+  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules/databricks/security-analysis-tool"
   # Deploy versions via git
   # source = "git::git@github.com:path/to/repo.git//path/to/module?ref=v0.0.1"
 }
 
 dependency "account-config" {
-  config_path = "../../common/account-config"
+  config_path = "../../../common/account-config"
 
   mock_outputs = {
     metastore_id                          = "mock-metastore-id"
@@ -22,7 +22,7 @@ dependency "account-config" {
 }
 
 dependency "workspace" {
-  config_path = "../databricks/workspace"
+  config_path = "../workspace"
 
   mock_outputs = {
     workspace_id              = "mock-workspace-id"
@@ -33,7 +33,7 @@ dependency "workspace" {
 }
 
 dependency "workspace-config" {
-  config_path = "../databricks/workspace-config"
+  config_path = "../workspace-config"
 
   # sql_warehouse_id is "" when enable_default_compute is false; SAT then needs
   # serverless (serverless = true below) or a bring-your-own warehouse.
@@ -43,7 +43,7 @@ dependency "workspace-config" {
 }
 
 dependency "uc" {
-  config_path = "../databricks/uc"
+  config_path = "../uc"
 
   mock_outputs = {
     catalog = "mock-catalog-name"

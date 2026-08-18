@@ -5,7 +5,7 @@ include "root" {
 
 terraform {
   # `//` marks the copy root so the pattern module can reference ../_blocks.
-  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules//databricks_network"
+  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules//databricks/network"
   # Deploy versions via git
   # source = "git::git@github.com:path/to/repo.git//path/to/module?ref=v0.0.1"
 }

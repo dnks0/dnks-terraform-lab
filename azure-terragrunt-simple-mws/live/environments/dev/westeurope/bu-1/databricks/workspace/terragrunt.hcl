@@ -4,7 +4,7 @@ include "root" {
 }
 
 terraform {
-  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules/workspace"
+  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules/databricks/workspace"
   # Deploy versions via git
   # source = "git::git@github.com:path/to/repo.git//path/to/module?ref=v0.0.1"
 }
