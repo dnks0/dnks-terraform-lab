@@ -1,4 +1,4 @@
-# _blocks/resource_group — a single Azure resource group.
+# _blocks/resource-group — a single Azure resource group.
 # Generic, purpose-agnostic. Composed by pattern modules.
 
 resource "azurerm_resource_group" "this" {

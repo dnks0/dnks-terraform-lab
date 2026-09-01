@@ -1,4 +1,4 @@
-# _blocks/private_endpoint — a single Azure private endpoint with a DNS zone group.
+# _blocks/private-endpoint — a single Azure private endpoint with a DNS zone group.
 # Generic: the caller supplies the target resource, subresources and DNS zone IDs.
 
 resource "azurerm_private_endpoint" "this" {

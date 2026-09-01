@@ -8,6 +8,11 @@ variable "region" {
   description = "The Azure region to deploy to"
 }
 
+variable "resource_group_name" {
+  type        = string
+  description = "Name of the BU resource group (owned by the resource-group unit)"
+}
+
 variable "tags" {
   type        = map(string)
   description = "Optional tags to add to created resources"
@@ -41,6 +46,6 @@ variable "extra_subnets" {
 
 variable "enable_nat_gateway" {
   type        = bool
-  description = "(Optional) Create a NAT gateway for the VNet (associated to Databricks subnets by databricks_network)"
+  description = "(Optional) Create a NAT gateway for the VNet (associated to Databricks subnets by databricks/network)"
   default     = true
 }

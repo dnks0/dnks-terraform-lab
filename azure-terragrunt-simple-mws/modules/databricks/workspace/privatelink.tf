@@ -3,7 +3,7 @@
 # and consumed here via var.dns_zone_ids / var.network_configuration.
 #
 # Gated by var.enable_backend_privatelink (default true). The private DNS zones are owned
-# by the databricks_network unit and gated on the same flag, so whenever these endpoints
+# by the databricks/network unit and gated on the same flag, so whenever these endpoints
 # are created their zones are guaranteed to exist upstream.
 
 resource "azurerm_private_endpoint" "backend" {

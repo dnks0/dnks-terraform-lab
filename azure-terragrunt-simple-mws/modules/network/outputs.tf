@@ -1,6 +1,8 @@
+# Pass-through: the RG is owned by the resource-group unit and supplied as an input.
+# Re-emitted so downstream units (databricks/network -> storage/workspace) keep their chain.
 output "resource_group_name" {
   description = "Name of the BU resource group"
-  value       = module.resource_group.name
+  value       = var.resource_group_name
 }
 
 output "vnet_id" {

@@ -1,4 +1,4 @@
-# _blocks/dns_zone — a private DNS zone plus its link to a virtual network.
+# _blocks/dns-zone — a private DNS zone plus its link to a virtual network.
 # Zone + vnet-link are atomic (a zone with no link is not useful here).
 
 resource "azurerm_private_dns_zone" "this" {

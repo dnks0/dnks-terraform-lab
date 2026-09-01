@@ -1,4 +1,4 @@
-# databricks_network — Databricks-specific connectivity layered on the generic BU network.
+# databricks/network — Databricks-specific connectivity layered on the generic BU network.
 # Owns the NSG + Databricks egress rules, the delegated container/host subnets, the
 # privatelink subnet, and the Databricks/storage private DNS zones. Consumes the generic
 # vnet/RG/NAT from the network unit. Outputs network_configuration + dns_zone_ids for the
@@ -50,7 +50,7 @@ module "privatelink_subnet" {
 }
 
 module "dns_zone" {
-  source              = "../../_blocks/dns_zone"
+  source              = "../../_blocks/dns-zone"
   for_each            = local.dns_zones
   zone_name           = each.value
   link_name           = "${var.prefix}-${each.key}-vnl"
