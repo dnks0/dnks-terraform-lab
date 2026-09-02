@@ -17,11 +17,12 @@ resource "azurerm_network_security_perimeter_profile" "this" {
   network_security_perimeter_id = azurerm_network_security_perimeter.this[0].id
 }
 
-# Allow the Databricks serverless regional service tag inbound to the perimeter.
+# Allow the Databricks serverless regional service tag inbound to the perimeter. Azure requires
+# the canonical PascalCase region suffix (resolved in locals from the deployment region slug).
 resource "azurerm_network_security_perimeter_access_rule" "serverless" {
   count                                 = var.enable_serverless_connectivity ? 1 : 0
   name                                  = "allow-databricks-serverless"
   network_security_perimeter_profile_id = azurerm_network_security_perimeter_profile.this[0].id
   direction                             = "Inbound"
-  service_tags                          = ["AzureDatabricksServerless.${var.region}"]
+  service_tags                          = [local.serverless_service_tag]
 }

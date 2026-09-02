@@ -46,4 +46,36 @@ locals {
       blob = "privatelink.blob.core.windows.net"
     } : {},
   )
+
+  # Databricks serverless is exposed per region via the AzureDatabricksServerless.<Region>
+  # service tag, where <Region> is Azure's canonical PascalCase region name — Azure rejects
+  # any other casing. The deployment slug (var.region) is exactly the lowercase form of that
+  # name, so we recover the canonical suffix by keying the list on lower(suffix). List sourced
+  # from `az network list-service-tags`; regenerate it if Azure adds serverless regions. Any
+  # region not in the list falls back to the (valid) non-regional AzureDatabricksServerless tag
+  # so an apply never fails on an unmapped region.
+  serverless_tag_suffixes = [
+    "AustraliaCentral", "AustraliaCentral2", "AustraliaEast",
+    "AustraliaSoutheast", "AustriaEast", "BelgiumCentral", "BrazilSouth",
+    "BrazilSoutheast", "CanadaCentral", "CanadaEast", "CentralIndia",
+    "CentralUS", "CentralUSEUAP", "ChileCentral", "DenmarkEast", "EastAsia",
+    "EastUS", "EastUS2", "EastUS2EUAP", "EastUS3", "FranceCentral",
+    "FranceSouth", "GermanyNorth", "GermanyWestCentral", "IndiaSouthCentral",
+    "IndonesiaCentral", "IsraelCentral", "IsraelNorthwest", "ItalyNorth",
+    "JapanEast", "JapanWest", "JioIndiaCentral", "JioIndiaWest",
+    "KoreaCentral", "KoreaSouth", "MalaysiaSouth", "MalaysiaWest",
+    "MexicoCentral", "NewZealandNorth", "NorthCentralUS", "NortheastUS5",
+    "NorthEurope", "NorwayEast", "NorwayWest", "PolandCentral",
+    "QatarCentral", "SouthAfricaNorth", "SouthAfricaWest", "SouthCentralUS",
+    "SouthCentralUS2", "SoutheastAsia", "SoutheastUS", "SoutheastUS3",
+    "SoutheastUS5", "SouthIndia", "SouthwestUS", "SpainCentral",
+    "SwedenCentral", "SwedenSouth", "SwitzerlandNorth", "SwitzerlandWest",
+    "TaiwanNorth", "TaiwanNorthwest", "UAECentral", "UAENorth", "UKSouth",
+    "UKWest", "WestCentralUS", "WestEurope", "WestIndia", "WestUS",
+    "WestUS2", "WestUS3",
+  ]
+  serverless_tag_by_region = { for s in local.serverless_tag_suffixes : lower(s) => s }
+  serverless_service_tag = contains(keys(local.serverless_tag_by_region), lower(var.region)) ? (
+    "AzureDatabricksServerless.${local.serverless_tag_by_region[lower(var.region)]}"
+  ) : "AzureDatabricksServerless"
 }
