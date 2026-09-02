@@ -39,7 +39,5 @@ resource "azurerm_network_security_perimeter_access_rule" "serverless" {
   name                                  = "allow-databricks-serverless"
   network_security_perimeter_profile_id = azurerm_network_security_perimeter_profile.this[0].id
   direction                             = "Inbound"
-  # Azure service tags use the PascalCase region form (e.g. WestEurope), which isn't
-  # derivable from the lowercase ARM region id — so it's supplied explicitly by the unit.
-  service_tags = [coalesce(var.serverless_service_tag, "AzureDatabricksServerless.${var.region}")]
+  service_tags                          = ["AzureDatabricksServerless.${var.region}"]
 }
