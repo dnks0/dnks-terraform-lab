@@ -56,7 +56,7 @@ variable "dns_zone_ids" {
 
 variable "enable_classic_privatelink" {
   type        = bool
-  description = "Create backend Private Link endpoints (ui/api + dfs + blob)"
+  description = "Create classic Private Link endpoints (ui/api + dfs + blob)"
   default     = true
 }
 
