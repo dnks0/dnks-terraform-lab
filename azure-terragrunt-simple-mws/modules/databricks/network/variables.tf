@@ -61,7 +61,7 @@ variable "privatelink_subnet_cidrs" {
 # --- feature flags controlling which private DNS zones are created ---
 variable "enable_classic_privatelink" {
   type        = bool
-  description = "Whether backend Private Link is used (creates backend + dfs + blob DNS zones)"
+  description = "Whether classic Private Link is used (creates classic + dfs + blob DNS zones)"
   default     = true
 }
 

@@ -47,7 +47,7 @@ variable "network_configuration" {
 
 variable "dns_zone_ids" {
   type = object({
-    backend = string
+    classic = string
     dfs     = string
     blob    = string
   })

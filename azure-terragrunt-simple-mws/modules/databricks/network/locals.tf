@@ -36,11 +36,11 @@ locals {
   associate_nat_gateway = var.enable_outbound_nat
 
   # Only create the private DNS zones actually consumed by an enabled private endpoint:
-  #  - backend zone: workspace backend PE (enable_classic_privatelink)
-  #  - dfs/blob zones: workspace backend PE OR storage external-location PE
+  #  - classic zone: workspace classic PE (enable_classic_privatelink)
+  #  - dfs/blob zones: workspace classic PE OR storage external-location PE
   storage_pl_enabled = var.enable_classic_privatelink || var.enable_storage_privatelink
   dns_zones = merge(
-    var.enable_classic_privatelink ? { backend = "privatelink.azuredatabricks.net" } : {},
+    var.enable_classic_privatelink ? { classic = "privatelink.azuredatabricks.net" } : {},
     local.storage_pl_enabled ? {
       dfs  = "privatelink.dfs.core.windows.net"
       blob = "privatelink.blob.core.windows.net"

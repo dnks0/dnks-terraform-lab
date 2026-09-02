@@ -16,7 +16,7 @@ module "classic_private_endpoint" {
   private_connection_resource_id = azurerm_databricks_workspace.this.id
   subresource_names              = ["databricks_ui_api"]
   dns_zone_group_name            = "private-dns-zone-dbx-classic"
-  private_dns_zone_ids           = [var.dns_zone_ids.backend]
+  private_dns_zone_ids           = [var.dns_zone_ids.classic]
   tags                           = var.tags
 }
 

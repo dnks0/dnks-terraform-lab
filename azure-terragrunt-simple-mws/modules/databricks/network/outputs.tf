@@ -21,9 +21,9 @@ output "network_configuration" {
 # Private DNS zone IDs, keyed by logical name. Keys are always present (stable shape);
 # a value is "" when that zone is not created because its Private Link is disabled.
 output "dns_zone_ids" {
-  description = "Private DNS zone IDs { backend, dfs, blob }; \"\" when the zone is disabled"
+  description = "Private DNS zone IDs { classic, dfs, blob }; \"\" when the zone is disabled"
   value = {
-    backend = try(module.dns_zone["backend"].id, "")
+    classic = try(module.dns_zone["classic"].id, "")
     dfs     = try(module.dns_zone["dfs"].id, "")
     blob    = try(module.dns_zone["blob"].id, "")
   }

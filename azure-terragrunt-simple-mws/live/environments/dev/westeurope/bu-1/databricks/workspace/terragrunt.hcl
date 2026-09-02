@@ -41,7 +41,7 @@ dependency "databricks-network" {
       container_subnet_nsg_association_id = "mock-container-nsg-assoc-id"
     }
     dns_zone_ids = {
-      backend = "mock-backend-zone-id"
+      classic = "mock-classic-zone-id"
       dfs     = "mock-dfs-zone-id"
       blob    = "mock-blob-zone-id"
     }
