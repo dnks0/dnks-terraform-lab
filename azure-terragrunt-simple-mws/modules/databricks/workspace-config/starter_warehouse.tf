@@ -6,8 +6,11 @@
 # picked up from the ARM_* env vars already present during the run (same creds the stack
 # authenticates Databricks with). A short retry loop handles the fact that Databricks
 # creates the starter warehouse asynchronously after the workspace comes up.
-resource "terraform_data" "disable_starter_warehouse" {
-  count = var.disable_starter_warehouse ? 1 : 0
+#
+# Gated by enable_default_compute: when we provision our own default compute we also
+# remove the redundant auto-created starter warehouse (no separate flag).
+resource "terraform_data" "starter_warehouse" {
+  count = var.enable_default_compute ? 1 : 0
 
   # Re-run only if the target workspace changes.
   triggers_replace = [var.workspace_host]

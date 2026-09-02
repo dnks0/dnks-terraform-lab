@@ -28,7 +28,6 @@ locals {
     enable_classic_privatelink     = true
     enable_storage_privatelink     = true
     enable_default_compute         = true
-    disable_starter_warehouse      = true
     disable_legacy_features        = true
 
     # reserved extension points (not built yet — kept false)
