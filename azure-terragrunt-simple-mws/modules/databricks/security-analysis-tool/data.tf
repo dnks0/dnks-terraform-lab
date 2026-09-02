@@ -17,10 +17,12 @@ data "databricks_spark_version" "latest-lts" {
 }
 
 # Newest published GitHub release of the SAT source repo, so the repo checkout tracks the
-# latest release instead of the moving main branch. Re-read every plan, so a new SAT release
-# is picked up on the next apply. Uses the unauthenticated GitHub API (60 requests/hour/IP).
+# latest release instead of the moving main branch. Only queried when var.release_tag is
+# empty (an explicit tag skips the call). Re-read every plan, so a new SAT release is picked
+# up on the next apply. Uses the unauthenticated GitHub API (60 requests/hour/IP).
 data "http" "sat_latest_release" {
-  url = "https://api.github.com/repos/databricks-industry-solutions/security-analysis-tool/releases/latest"
+  count = var.release_tag == "" ? 1 : 0
+  url   = "https://api.github.com/repos/databricks-industry-solutions/security-analysis-tool/releases/latest"
   request_headers = {
     Accept = "application/vnd.github+json"
   }

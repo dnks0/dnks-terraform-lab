@@ -70,3 +70,9 @@ variable "notification_email" {
   description = "Optional user email for notifications. If not specified, current user's email will be used"
   default     = ""
 }
+
+variable "release_tag" {
+  type        = string
+  description = "Optional SAT release tag to check out (e.g. \"0.9.0\"). If empty, the latest published GitHub release is resolved at plan time."
+  default     = ""
+}
