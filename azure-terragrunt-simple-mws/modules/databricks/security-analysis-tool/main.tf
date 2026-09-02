@@ -4,6 +4,9 @@ terraform {
     databricks = {
       source = "databricks/databricks"
     }
+    http = {
+      source = "hashicorp/http"
+    }
     time = {
       source = "hashicorp/time"
     }
