@@ -1,23 +1,50 @@
 locals {
-  prefix                            = "dnks-tg-simple-mws"
-  environment                       = read_terragrunt_config(find_in_parent_folders("environment.hcl")).locals
-  region                            = read_terragrunt_config(find_in_parent_folders("region.hcl")).locals
-  business_unit                     = read_terragrunt_config(find_in_parent_folders("business-unit.hcl")).locals
+  prefix        = "dnks-tg-simple-mws"
+  environment   = read_terragrunt_config(find_in_parent_folders("environment.hcl")).locals
+  region        = read_terragrunt_config(find_in_parent_folders("region.hcl")).locals
+  business_unit = read_terragrunt_config(find_in_parent_folders("business-unit.hcl")).locals
 
-  owner                             = ""  # fill-in if required!
+  owner = "" # fill-in if required!
 
-  databricks_account_id             = get_env("DATABRICKS_ACCOUNT_ID")
-  arm_client_id                     = get_env("ARM_CLIENT_ID")
-  arm_client_secret                 = get_env("ARM_CLIENT_SECRET")
-  arm_subscription_id               = get_env("ARM_SUBSCRIPTION_ID")
-  arm_tenant_id                     = get_env("ARM_TENANT_ID")
+  databricks_account_id = get_env("DATABRICKS_ACCOUNT_ID")
+  arm_client_id         = get_env("ARM_CLIENT_ID")
+  arm_client_secret     = get_env("ARM_CLIENT_SECRET")
+  arm_subscription_id   = get_env("ARM_SUBSCRIPTION_ID")
+  arm_tenant_id         = get_env("ARM_TENANT_ID")
 
-  default_tags                      = merge(
-    local.owner == "" ? {} : {Owner = local.owner},  # fill-in if required!
+  default_tags = merge(
+    local.owner == "" ? {} : { Owner = local.owner }, # fill-in if required!
     {
       Business-Unit = local.business_unit.name
       Environment   = local.environment.name
     }
+  )
+
+  # Feature flags: safe global baseline. Defaults preserve current behavior
+  # (existing on-by-default functionality stays true; reserved extension points stay false).
+  feature_baseline = {
+    enable_serverless_connectivity = true
+    enable_network_policy          = true
+    enable_outbound_nat            = true
+    enable_classic_privatelink     = true
+    enable_storage_privatelink     = true
+    enable_default_compute         = true
+    disable_legacy_features        = true
+
+    # reserved extension points (not built yet — kept false)
+    enable_cmk                       = false
+    enable_security_compliance_addon = false
+    enable_inbound_privatelink       = false
+  }
+
+  # Resolution cascade (least -> most specific, later wins). Each hierarchy level may
+  # optionally define a flat `features` map; any level that doesn't is simply skipped.
+  # Leaves apply their own final override on top of `feature_flags`.
+  feature_flags = merge(
+    local.feature_baseline,
+    try(local.environment.features, {}),
+    try(local.region.features, {}),
+    try(local.business_unit.features, {}),
   )
 }
 
@@ -68,9 +95,9 @@ errors {
   # ignore block for known safe-to-ignore errors
   ignore "known-safe-errors" {
     ignorable_errors = [".*Error:.*mock.*"]
-    message = "Ignoring safe warning errors related to mock output."
+    message          = "Ignoring safe warning errors related to mock output."
     signals = {
-      alert_team = false
+      alert_team        = false
       send_notification = true
     }
   }

@@ -7,3 +7,10 @@
 **/.terragrunt-cache
 **/.terraform.lock.hcl
 **/error-signals.json
+
+.claude
+.isaac
+.docs
+
+# Local implementation plans / specs — kept out of the repo
+/.plans/

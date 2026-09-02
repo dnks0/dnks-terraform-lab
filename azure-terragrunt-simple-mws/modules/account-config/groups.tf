@@ -1,6 +1,6 @@
 resource "databricks_group" "admin_group" {
-  provider      = databricks.mws
-  display_name  = "${var.prefix}-admins"
+  provider     = databricks.mws
+  display_name = "${var.prefix}-admins"
 }
 
 resource "databricks_group_member" "service-principal-admin-member" {

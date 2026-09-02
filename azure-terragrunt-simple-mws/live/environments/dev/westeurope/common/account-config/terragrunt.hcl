@@ -1,6 +1,6 @@
 include "root" {
-  path    = find_in_parent_folders("root.hcl")
-  expose  = true
+  path   = find_in_parent_folders("root.hcl")
+  expose = true
 }
 
 terraform {
@@ -9,12 +9,18 @@ terraform {
   # source = "git::git@github.com:path/to/repo.git//path/to/module?ref=v0.0.1"
 }
 
+locals {
+  flags = merge(include.root.locals.feature_flags, {})
+}
+
 inputs = {
-  prefix                        = "${include.root.locals.prefix}-dbx"
-  region                        = include.root.locals.region.name
-  tags                          = include.root.locals.default_tags
-  databricks_account_id         = include.root.locals.databricks_account_id
-  arm_client_id                 = include.root.locals.arm_client_id
-  databricks_account_admins     = []  # add account-admins if required! default will use the current service-principal used for deployments
-  enable_serverless_connectivity  = false
+  prefix                         = "${include.root.locals.prefix}-dbx"
+  region                         = include.root.locals.region.name
+  tags                           = include.root.locals.default_tags
+  databricks_account_id          = include.root.locals.databricks_account_id
+  arm_client_id                  = include.root.locals.arm_client_id
+  databricks_account_admins      = [] # add account-admins if required! default will use the current service-principal used for deployments
+  enable_serverless_connectivity = local.flags.enable_serverless_connectivity
+  enable_network_policy          = local.flags.enable_network_policy
+  disable_legacy_features        = local.flags.disable_legacy_features
 }
