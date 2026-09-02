@@ -46,6 +46,12 @@ variable "enable_storage_privatelink" {
 
 variable "enable_serverless_connectivity" {
   type        = bool
-  description = "Wrap the storage account in an Azure Network Security Perimeter (transition mode) and allow the Databricks serverless service tag inbound, so serverless compute can reach the storage. Same flag as the account-level NCC."
+  description = "Associate the storage account with the Databricks NSP (transition mode) so serverless compute can reach it. The perimeter itself is created in the databricks/network unit. Same flag as the account-level NCC."
   default     = false
+}
+
+variable "nsp_profile_id" {
+  type        = string
+  description = "NSP profile ID (from the databricks/network unit) to associate this storage account with"
+  default     = ""
 }

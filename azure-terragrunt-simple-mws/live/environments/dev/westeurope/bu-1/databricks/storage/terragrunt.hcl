@@ -32,6 +32,7 @@ dependency "databricks-network" {
       dfs     = "mock-dfs-zone-id"
       blob    = "mock-blob-zone-id"
     }
+    nsp_profile_id = "mock-nsp-profile-id"
   }
 }
 
@@ -47,4 +48,5 @@ inputs = {
   }
   enable_storage_privatelink     = local.flags.enable_storage_privatelink
   enable_serverless_connectivity = local.flags.enable_serverless_connectivity
+  nsp_profile_id                 = dependency.databricks-network.outputs.nsp_profile_id
 }

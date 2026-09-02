@@ -28,3 +28,10 @@ output "dns_zone_ids" {
     blob    = try(module.dns_zone["blob"].id, "")
   }
 }
+
+# NSP profile ID for the storage unit to associate its storage account with.
+# Empty string when serverless connectivity is disabled — stable output shape.
+output "nsp_profile_id" {
+  description = "Network Security Perimeter profile ID; \"\" when serverless connectivity is disabled"
+  value       = var.enable_serverless_connectivity ? azurerm_network_security_perimeter_profile.this[0].id : ""
+}

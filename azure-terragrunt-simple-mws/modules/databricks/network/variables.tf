@@ -70,3 +70,9 @@ variable "enable_storage_privatelink" {
   description = "Whether external-location Private Link is used (creates dfs + blob DNS zones)"
   default     = true
 }
+
+variable "enable_serverless_connectivity" {
+  type        = bool
+  description = "Create the Azure Network Security Perimeter (+ profile + Databricks serverless inbound rule) that the storage account associates with, so serverless compute can reach storage. Same flag as the account-level NCC."
+  default     = false
+}
