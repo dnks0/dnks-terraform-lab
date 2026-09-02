@@ -23,8 +23,8 @@ locals {
   # Feature flags: safe global baseline. Defaults preserve current behavior
   # (existing on-by-default functionality stays true; reserved extension points stay false).
   feature_baseline = {
-    enable_serverless_connectivity = false
-    enable_network_policy          = false
+    enable_serverless_connectivity = true
+    enable_network_policy          = true
     enable_outbound_nat            = true
     enable_classic_privatelink     = true
     enable_storage_privatelink     = true
