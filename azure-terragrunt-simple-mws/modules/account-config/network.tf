@@ -7,8 +7,10 @@ resource "databricks_mws_network_connectivity_config" "this" {
 }
 
 # Account network policy — a separate concern from the NCC, gated on its own flag.
-# Egress and ingress are both configured permissively in DRY_RUN mode: policies are
-# evaluated and violations logged, but nothing is blocked (a safe, observe-only baseline).
+# Permissive "allow everything" baseline: egress is FULL_ACCESS (in DRY_RUN, observe-only)
+# and ingress is an enforced FULL_ACCESS across all three ingress paths. All three ingress
+# sub-modes are set explicitly to their most-permissive value so enforcement never blocks
+# anything (important because this stack uses Private Link for workspace connectivity).
 resource "databricks_account_network_policy" "this" {
   count             = var.enable_network_policy ? 1 : 0
   provider          = databricks.mws
@@ -24,10 +26,14 @@ resource "databricks_account_network_policy" "this" {
     }
   }
 
-  # ingress_dry_run is the ingress equivalent of egress DRY_RUN: the ingress policy is
-  # evaluated and logged but never blocks requests.
-  ingress_dry_run = {
+  ingress = {
     public_access = {
+      restriction_mode = "FULL_ACCESS"
+    }
+    private_access = {
+      restriction_mode = "ALLOW_ALL_REGISTERED_ENDPOINTS"
+    }
+    cross_workspace_access = {
       restriction_mode = "FULL_ACCESS"
     }
   }
