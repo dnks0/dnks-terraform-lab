@@ -34,7 +34,13 @@ variable "databricks_account_admins" {
 
 variable "enable_serverless_connectivity" {
   type        = bool
-  description = "Flag to provision the serverless network connectivity config (NCC) and account network policy"
+  description = "Provision the serverless network connectivity config (NCC)"
+  default     = false
+}
+
+variable "enable_network_policy" {
+  type        = bool
+  description = "Provision the account network policy (egress + ingress in DRY_RUN / observe-only mode)"
   default     = false
 }
 

@@ -21,5 +21,6 @@ inputs = {
   arm_client_id                  = include.root.locals.arm_client_id
   databricks_account_admins      = ["dominik.schuessele@databricks.com"] # add account-admins if required! default will use the current service-principal used for deployments
   enable_serverless_connectivity = local.flags.enable_serverless_connectivity
+  enable_network_policy          = local.flags.enable_network_policy
   disable_legacy_features        = local.flags.disable_legacy_features
 }
