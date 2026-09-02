@@ -5,9 +5,12 @@
 # the storage. Part of serverless connectivity — gated by enable_serverless_connectivity
 # (same flag as the account-level NCC).
 #
-# access_mode is Learning (not Enforced): per Databricks guidance NSP must run in
-# Learning/transition mode with Databricks — it observes and logs but does not block, so it
-# never breaks Databricks connectivity to the storage.
+# access_mode is "Learning" — the azurerm provider's enum value for what Azure now calls
+# "Transition mode" (the API value stayed "Learning" after the portal rename). Per Databricks
+# guidance NSP must stay in transition mode, NOT Enforced: transition evaluates NSP rules
+# first and falls back to the storage firewall rules if none match, so it never blocks
+# Databricks connectivity. (The storage account also stays on "Enabled from selected
+# networks", never "Secured by Perimeter", as the docs require.)
 resource "azurerm_network_security_perimeter" "this" {
   count               = var.enable_serverless_connectivity ? 1 : 0
   name                = "${var.prefix}-nsp"
@@ -36,5 +39,7 @@ resource "azurerm_network_security_perimeter_access_rule" "serverless" {
   name                                  = "allow-databricks-serverless"
   network_security_perimeter_profile_id = azurerm_network_security_perimeter_profile.this[0].id
   direction                             = "Inbound"
-  service_tags                          = ["AzureDatabricksServerless.${var.region}"]
+  # Azure service tags use the PascalCase region form (e.g. WestEurope), which isn't
+  # derivable from the lowercase ARM region id — so it's supplied explicitly by the unit.
+  service_tags = [coalesce(var.serverless_service_tag, "AzureDatabricksServerless.${var.region}")]
 }

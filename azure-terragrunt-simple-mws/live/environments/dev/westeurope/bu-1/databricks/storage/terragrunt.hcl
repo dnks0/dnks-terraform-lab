@@ -47,4 +47,5 @@ inputs = {
   }
   enable_storage_privatelink     = local.flags.enable_storage_privatelink
   enable_serverless_connectivity = local.flags.enable_serverless_connectivity
+  serverless_service_tag         = "AzureDatabricksServerless.WestEurope"
 }

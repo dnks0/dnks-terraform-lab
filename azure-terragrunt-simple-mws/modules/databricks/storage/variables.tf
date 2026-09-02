@@ -46,6 +46,12 @@ variable "enable_storage_privatelink" {
 
 variable "enable_serverless_connectivity" {
   type        = bool
-  description = "Wrap the storage account in an Azure Network Security Perimeter (Learning mode) and allow the AzureDatabricksServerless.<region> service tag inbound, so serverless compute can reach the storage. Same flag as the account-level NCC."
+  description = "Wrap the storage account in an Azure Network Security Perimeter (transition mode) and allow the Databricks serverless service tag inbound, so serverless compute can reach the storage. Same flag as the account-level NCC."
   default     = false
+}
+
+variable "serverless_service_tag" {
+  type        = string
+  description = "Databricks serverless service tag to allow inbound on the NSP, e.g. AzureDatabricksServerless.WestEurope (region in PascalCase). Falls back to AzureDatabricksServerless.<region> if unset."
+  default     = null
 }
