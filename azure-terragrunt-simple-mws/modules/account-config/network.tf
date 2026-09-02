@@ -8,9 +8,10 @@ resource "databricks_mws_network_connectivity_config" "this" {
 
 # Account network policy — a separate concern from the NCC, gated on its own flag.
 # Permissive "allow everything" baseline: egress is FULL_ACCESS (in DRY_RUN, observe-only)
-# and ingress is an enforced FULL_ACCESS across all three ingress paths. All three ingress
-# sub-modes are set explicitly to their most-permissive value so enforcement never blocks
-# anything (important because this stack uses Private Link for workspace connectivity).
+# and ingress is set to its most-permissive value on both supported paths so enforcement
+# never blocks anything (important because this stack uses Private Link for workspace
+# connectivity). cross_workspace_access is intentionally omitted: it requires an account
+# entitlement not present on all accounts, and Azure/Databricks rejects it when unavailable.
 resource "databricks_account_network_policy" "this" {
   count             = var.enable_network_policy ? 1 : 0
   provider          = databricks.mws
@@ -32,9 +33,6 @@ resource "databricks_account_network_policy" "this" {
     }
     private_access = {
       restriction_mode = "ALLOW_ALL_REGISTERED_ENDPOINTS"
-    }
-    cross_workspace_access = {
-      restriction_mode = "FULL_ACCESS"
     }
   }
 }
