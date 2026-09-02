@@ -43,3 +43,9 @@ variable "enable_storage_privatelink" {
   description = "Create dfs/blob private endpoints for the external-location storage account"
   default     = true
 }
+
+variable "enable_serverless_connectivity" {
+  type        = bool
+  description = "Wrap the storage account in an Azure Network Security Perimeter (Learning mode) and allow the AzureDatabricksServerless.<region> service tag inbound, so serverless compute can reach the storage. Same flag as the account-level NCC."
+  default     = false
+}

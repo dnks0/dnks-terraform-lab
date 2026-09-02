@@ -45,5 +45,6 @@ inputs = {
     dfs  = dependency.databricks-network.outputs.dns_zone_ids.dfs
     blob = dependency.databricks-network.outputs.dns_zone_ids.blob
   }
-  enable_storage_privatelink = local.flags.enable_storage_privatelink
+  enable_storage_privatelink     = local.flags.enable_storage_privatelink
+  enable_serverless_connectivity = local.flags.enable_serverless_connectivity
 }
