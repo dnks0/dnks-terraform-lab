@@ -4,7 +4,7 @@ locals {
   region        = read_terragrunt_config(find_in_parent_folders("region.hcl")).locals
   business_unit = read_terragrunt_config(find_in_parent_folders("business-unit.hcl")).locals
 
-  owner = "dominik.schuessele@databricks.com" # fill-in if required!
+  owner = "" # fill-in if required!
 
   databricks_account_id = get_env("DATABRICKS_ACCOUNT_ID")
   arm_client_id         = get_env("ARM_CLIENT_ID")
