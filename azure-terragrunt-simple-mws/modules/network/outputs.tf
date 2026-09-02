@@ -18,7 +18,7 @@ output "vnet_name" {
 # Empty string when NAT is disabled — stable output shape.
 output "nat_gateway_id" {
   description = "NAT gateway ID, or empty string when disabled"
-  value       = var.enable_nat_gateway ? module.nat[0].id : ""
+  value       = var.enable_outbound_nat ? module.nat[0].id : ""
 }
 
 output "extra_subnet_ids" {

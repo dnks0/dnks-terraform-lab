@@ -1,6 +1,6 @@
 resource "databricks_secret_scope" "this" {
-  name          = var.secret_scope
-  provider     = databricks.workspace
+  name     = var.secret_scope
+  provider = databricks.workspace
 }
 
 resource "databricks_secret" "user_email" {

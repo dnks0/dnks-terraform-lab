@@ -1,8 +1,8 @@
 resource "databricks_mws_network_connectivity_config" "this" {
-  count     = var.enable_serverless_connectivity ? 1 : 0
-  provider  = databricks.mws
-  name      = "${var.prefix}-ncc"
-  region    = var.region
+  count    = var.enable_serverless_connectivity ? 1 : 0
+  provider = databricks.mws
+  name     = "${var.prefix}-ncc"
+  region   = var.region
 }
 
 resource "databricks_account_network_policy" "this" {

@@ -1,6 +1,6 @@
 data "databricks_service_principal" "this" {
-  provider        = databricks.mws
-  application_id  = var.arm_client_id
+  provider       = databricks.mws
+  application_id = var.arm_client_id
 }
 
 data "databricks_user" "account-admins" {

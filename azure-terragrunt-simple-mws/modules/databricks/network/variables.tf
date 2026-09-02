@@ -30,7 +30,7 @@ variable "virtual_network_id" {
   description = "ID of the BU virtual network (for DNS zone links)"
 }
 
-variable "enable_nat_gateway" {
+variable "enable_outbound_nat" {
   type        = bool
   description = "Whether a NAT gateway exists (in the network unit) to associate Databricks subnets with. Must match the network unit's flag; known at plan time."
   default     = true
@@ -59,13 +59,13 @@ variable "privatelink_subnet_cidrs" {
 }
 
 # --- feature flags controlling which private DNS zones are created ---
-variable "enable_backend_privatelink" {
+variable "enable_classic_privatelink" {
   type        = bool
   description = "Whether backend Private Link is used (creates backend + dfs + blob DNS zones)"
   default     = true
 }
 
-variable "enable_external_location_privatelink" {
+variable "enable_storage_privatelink" {
   type        = bool
   description = "Whether external-location Private Link is used (creates dfs + blob DNS zones)"
   default     = true

@@ -7,8 +7,8 @@ resource "databricks_schema" "this" {
 }
 
 resource "databricks_grant" "schema" {
-  schema   = databricks_schema.this.id
-  provider  = databricks.workspace
+  schema     = databricks_schema.this.id
+  provider   = databricks.workspace
   principal  = var.admin_group
   privileges = ["ALL_PRIVILEGES", "MANAGE"]
 }

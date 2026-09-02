@@ -1,6 +1,6 @@
 include "root" {
-  path    = find_in_parent_folders("root.hcl")
-  expose  = true
+  path   = find_in_parent_folders("root.hcl")
+  expose = true
 }
 
 terraform {
@@ -36,14 +36,14 @@ dependency "databricks-network" {
 }
 
 inputs = {
-  prefix                               = "${include.root.locals.prefix}-${include.root.locals.environment.name}-${include.root.locals.business_unit.name}-dbx"
-  region                               = include.root.locals.region.name
-  tags                                 = include.root.locals.default_tags
-  resource_group_name                  = dependency.databricks-network.outputs.resource_group_name
-  privatelink_subnet_id                = dependency.databricks-network.outputs.network_configuration.privatelink_subnet_id
+  prefix                = "${include.root.locals.prefix}-${include.root.locals.environment.name}-${include.root.locals.business_unit.name}-dbx"
+  region                = include.root.locals.region.name
+  tags                  = include.root.locals.default_tags
+  resource_group_name   = dependency.databricks-network.outputs.resource_group_name
+  privatelink_subnet_id = dependency.databricks-network.outputs.network_configuration.privatelink_subnet_id
   dns_zone_ids = {
     dfs  = dependency.databricks-network.outputs.dns_zone_ids.dfs
     blob = dependency.databricks-network.outputs.dns_zone_ids.blob
   }
-  enable_external_location_privatelink = local.flags.enable_external_location_privatelink
+  enable_storage_privatelink = local.flags.enable_storage_privatelink
 }

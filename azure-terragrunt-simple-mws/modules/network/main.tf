@@ -15,7 +15,7 @@ module "vnet" {
 
 module "nat" {
   source              = "../_blocks/nat"
-  count               = var.enable_nat_gateway ? 1 : 0
+  count               = var.enable_outbound_nat ? 1 : 0
   name                = "${var.prefix}-nat"
   public_ip_name      = "${var.prefix}-nat-pip"
   location            = var.region

@@ -1,6 +1,6 @@
 include "root" {
-  path    = find_in_parent_folders("root.hcl")
-  expose  = true
+  path   = find_in_parent_folders("root.hcl")
+  expose = true
 }
 
 terraform {
@@ -28,5 +28,4 @@ inputs = {
   business_unit          = include.root.locals.business_unit.name
   workspace_host         = dependency.workspace.outputs.workspace_host
   enable_default_compute = local.flags.enable_default_compute
-  disable_legacy_access  = local.flags.disable_legacy_access
 }

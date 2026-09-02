@@ -1,6 +1,6 @@
 resource "databricks_job" "initializer-job" {
-  provider  = databricks.workspace
-  name = "security-analysis-tool-initializer-job"
+  provider = databricks.workspace
+  name     = "security-analysis-tool-initializer-job"
   dynamic "job_cluster" {
     for_each = var.serverless ? [] : [1]
     content {
@@ -34,8 +34,8 @@ resource "databricks_job" "initializer-job" {
 }
 
 resource "databricks_job" "driver-job" {
-  provider  = databricks.workspace
-  name = "security-analysis-tool-driver-job"
+  provider = databricks.workspace
+  name     = "security-analysis-tool-driver-job"
   dynamic "job_cluster" {
     for_each = var.serverless ? [] : [1]
     content {

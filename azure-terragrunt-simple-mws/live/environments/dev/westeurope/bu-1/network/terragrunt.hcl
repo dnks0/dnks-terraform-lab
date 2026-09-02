@@ -1,6 +1,6 @@
 include "root" {
-  path    = find_in_parent_folders("root.hcl")
-  expose  = true
+  path   = find_in_parent_folders("root.hcl")
+  expose = true
 }
 
 terraform {
@@ -29,7 +29,7 @@ inputs = {
   tags                = include.root.locals.default_tags
   resource_group_name = dependency.resource-group.outputs.resource_group_name
   vnet_cidrs          = ["10.0.0.0/18"]
-  enable_nat_gateway  = local.flags.enable_nat_gateway
+  enable_outbound_nat = local.flags.enable_outbound_nat
 
   # extra_subnets = { app-tier = { address_prefixes = ["10.0.8.0/22"] } }
 }

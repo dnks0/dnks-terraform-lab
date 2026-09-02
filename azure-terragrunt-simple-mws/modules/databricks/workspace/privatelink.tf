@@ -2,12 +2,12 @@
 # storage (dfs + blob). The private DNS zones and subnet are owned by the `network` unit
 # and consumed here via var.dns_zone_ids / var.network_configuration.
 #
-# Gated by var.enable_backend_privatelink (default true). The private DNS zones are owned
+# Gated by var.enable_classic_privatelink (default true). The private DNS zones are owned
 # by the databricks/network unit and gated on the same flag, so whenever these endpoints
 # are created their zones are guaranteed to exist upstream.
 
 resource "azurerm_private_endpoint" "backend" {
-  count               = var.enable_backend_privatelink ? 1 : 0
+  count               = var.enable_classic_privatelink ? 1 : 0
   name                = "${var.prefix}-backend-pep"
   location            = var.region
   resource_group_name = var.resource_group_name
@@ -29,7 +29,7 @@ resource "azurerm_private_endpoint" "backend" {
 }
 
 resource "azurerm_private_endpoint" "dfs" {
-  count               = var.enable_backend_privatelink ? 1 : 0
+  count               = var.enable_classic_privatelink ? 1 : 0
   name                = "${var.prefix}-dfs-pep"
   location            = var.region
   resource_group_name = var.resource_group_name
@@ -51,7 +51,7 @@ resource "azurerm_private_endpoint" "dfs" {
 }
 
 resource "azurerm_private_endpoint" "blob" {
-  count               = var.enable_backend_privatelink ? 1 : 0
+  count               = var.enable_classic_privatelink ? 1 : 0
   name                = "${var.prefix}-blob-pep"
   location            = var.region
   resource_group_name = var.resource_group_name

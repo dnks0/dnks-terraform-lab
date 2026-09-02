@@ -8,16 +8,16 @@ resource "azurerm_databricks_workspace" "this" {
   location                    = var.region
   sku                         = "premium"
 
-  # Extension point (var.enable_frontend_privatelink): flip to false and add a frontend
+  # Extension point (var.enable_inbound_privatelink): flip to false and add a frontend
   # (browser_authentication) private endpoint to disable public network access.
   public_network_access_enabled         = true
   network_security_group_rules_required = "NoAzureDatabricksRules"
 
-  # Extension point (var.cmk_enabled): managed_disk_cmk_key_vault_key_id,
+  # Extension point (var.enable_cmk): managed_disk_cmk_key_vault_key_id,
   # managed_services_cmk_key_vault_key_id, customer_managed_key_enabled,
   # infrastructure_encryption_enabled.
   #
-  # Extension point (var.enable_compliance_profile): enhanced_security_compliance { ... }
+  # Extension point (var.enable_security_compliance_addon): enhanced_security_compliance { ... }
   # (compliance_security_profile_enabled, enhanced_security_monitoring_enabled,
   # automatic_cluster_update_enabled).
 

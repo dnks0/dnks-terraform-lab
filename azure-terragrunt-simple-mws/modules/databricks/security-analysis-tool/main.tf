@@ -14,6 +14,6 @@ terraform {
 
 provider "databricks" {
   # authentication configured via env!
-  alias   = "workspace"
-  host    = var.workspace_host
+  alias = "workspace"
+  host  = var.workspace_host
 }

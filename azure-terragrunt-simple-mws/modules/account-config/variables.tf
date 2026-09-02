@@ -37,3 +37,9 @@ variable "enable_serverless_connectivity" {
   description = "Flag to provision the serverless network connectivity config (NCC) and account network policy"
   default     = false
 }
+
+variable "disable_legacy_features" {
+  type        = bool
+  description = "Disable legacy features (DBFS root/mounts, Hive Metastore, no-isolation clusters, DBR < 13.3 LTS) for newly created workspaces — account-global setting"
+  default     = true
+}

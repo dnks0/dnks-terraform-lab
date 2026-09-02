@@ -38,7 +38,7 @@ variable "account_replication_type" {
   default     = "GRS"
 }
 
-variable "enable_external_location_privatelink" {
+variable "enable_storage_privatelink" {
   type        = bool
   description = "Create dfs/blob private endpoints for the external-location storage account"
   default     = true

@@ -54,7 +54,7 @@ variable "dns_zone_ids" {
   description = "Private DNS zone IDs supplied by the network unit"
 }
 
-variable "enable_backend_privatelink" {
+variable "enable_classic_privatelink" {
   type        = bool
   description = "Create backend Private Link endpoints (ui/api + dfs + blob)"
   default     = true

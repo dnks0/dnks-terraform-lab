@@ -44,7 +44,7 @@ variable "extra_subnets" {
   default     = {}
 }
 
-variable "enable_nat_gateway" {
+variable "enable_outbound_nat" {
   type        = bool
   description = "(Optional) Create a NAT gateway for the VNet (associated to Databricks subnets by databricks/network)"
   default     = true

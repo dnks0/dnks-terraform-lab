@@ -1,6 +1,6 @@
 include "root" {
-  path    = find_in_parent_folders("root.hcl")
-  expose  = true
+  path   = find_in_parent_folders("root.hcl")
+  expose = true
 }
 
 terraform {
@@ -14,11 +14,12 @@ locals {
 }
 
 inputs = {
-  prefix                          = "${include.root.locals.prefix}-dbx"
-  region                          = include.root.locals.region.name
-  tags                            = include.root.locals.default_tags
-  databricks_account_id           = include.root.locals.databricks_account_id
-  arm_client_id                   = include.root.locals.arm_client_id
-  databricks_account_admins       = ["dominik.schuessele@databricks.com"]  # add account-admins if required! default will use the current service-principal used for deployments
-  enable_serverless_connectivity  = local.flags.enable_serverless_connectivity
+  prefix                         = "${include.root.locals.prefix}-dbx"
+  region                         = include.root.locals.region.name
+  tags                           = include.root.locals.default_tags
+  databricks_account_id          = include.root.locals.databricks_account_id
+  arm_client_id                  = include.root.locals.arm_client_id
+  databricks_account_admins      = ["dominik.schuessele@databricks.com"] # add account-admins if required! default will use the current service-principal used for deployments
+  enable_serverless_connectivity = local.flags.enable_serverless_connectivity
+  disable_legacy_features        = local.flags.disable_legacy_features
 }

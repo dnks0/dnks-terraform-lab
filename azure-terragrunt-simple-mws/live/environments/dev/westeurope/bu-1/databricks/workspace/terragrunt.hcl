@@ -1,6 +1,6 @@
 include "root" {
-  path    = find_in_parent_folders("root.hcl")
-  expose  = true
+  path   = find_in_parent_folders("root.hcl")
+  expose = true
 }
 
 terraform {
@@ -57,7 +57,7 @@ inputs = {
   resource_group_name               = dependency.databricks-network.outputs.resource_group_name
   network_configuration             = dependency.databricks-network.outputs.network_configuration
   dns_zone_ids                      = dependency.databricks-network.outputs.dns_zone_ids
-  enable_backend_privatelink        = local.flags.enable_backend_privatelink
+  enable_classic_privatelink        = local.flags.enable_classic_privatelink
   ncc_id                            = dependency.account-config.outputs.network_connectivity_configuration_id
   np_id                             = dependency.account-config.outputs.network_policy_id
 }
