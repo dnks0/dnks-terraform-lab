@@ -12,4 +12,5 @@
 .isaac
 .docs
 
-azure-terragrunt-simple-mws/MODULARIZATION.md
+# Local implementation plans / specs — kept out of the repo
+/.plans/
