@@ -25,7 +25,8 @@ dependency "workspace" {
 }
 
 inputs = {
-  business_unit          = include.root.locals.business_unit.name
-  workspace_host         = dependency.workspace.outputs.workspace_host
-  enable_default_compute = local.flags.enable_default_compute
+  business_unit             = include.root.locals.business_unit.name
+  workspace_host            = dependency.workspace.outputs.workspace_host
+  enable_default_compute    = local.flags.enable_default_compute
+  disable_starter_warehouse = local.flags.disable_starter_warehouse
 }
