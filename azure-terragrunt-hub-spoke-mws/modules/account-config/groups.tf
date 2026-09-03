@@ -10,7 +10,7 @@ resource "databricks_group_member" "service-principal-admin-member" {
 }
 
 resource "databricks_group_member" "account-admin-members" {
-  for_each  = toset(local.databricks_account_admins)
+  for_each  = toset(var.databricks_account_admins)
   provider  = databricks.mws
   group_id  = databricks_group.admin_group.id
   member_id = data.databricks_user.account-admins[each.value].id
