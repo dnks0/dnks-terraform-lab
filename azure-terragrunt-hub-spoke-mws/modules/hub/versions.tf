@@ -4,5 +4,10 @@ terraform {
     azurerm = {
       source = "hashicorp/azurerm"
     }
+    # Declared because root.hcl generates an aliased databricks provider block into
+    # every unit; this module itself creates no databricks resources.
+    databricks = {
+      source = "databricks/databricks"
+    }
   }
 }
