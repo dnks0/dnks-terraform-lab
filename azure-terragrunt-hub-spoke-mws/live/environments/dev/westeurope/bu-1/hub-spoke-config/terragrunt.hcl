@@ -1,10 +1,11 @@
 include "root" {
-  path    = find_in_parent_folders("root.hcl")
-  expose  = true
+  path   = find_in_parent_folders("root.hcl")
+  expose = true
 }
 
 terraform {
-  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules/hub-spoke-config"
+  # `//` marks the copy root so the pattern module can reference ../_blocks.
+  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules//hub-spoke-config"
   # Deploy versions via git
   # source = "git::git@github.com:path/to/repo.git//path/to/module?ref=v0.0.1"
 }
@@ -12,28 +13,39 @@ terraform {
 dependency "hub" {
   config_path = "../../common/hub"
 
-   mock_outputs = {
-     azure_resource_group_name  = "mock-resource-group-name"
-     vnet_id                    = "mock-vnet-id"
-     vnet_name                  = "mock-vnet-name"
-     route_table_id             = "mock-route-table-id"
-     ipgroup_id                 = "mock-ipgroup-id"
-   }
+  mock_outputs = {
+    azure_resource_group_name = "mock-resource-group-name"
+    vnet_id                   = "mock-vnet-id"
+    vnet_name                 = "mock-vnet-name"
+    route_table_id            = "mock-route-table-id"
+    ipgroup_id                = "mock-ipgroup-id"
+  }
 }
 
-dependency "spoke-workspace" {
-  config_path = "../spoke-workspace"
+dependency "network" {
+  config_path = "../network"
 
-   mock_outputs = {
-     workspace_id               = "mock-workspace-id"
-     workspace_host             = "https://mock.workspace.host"
-     workspace_name             = "mock-workspace-name"
-     azure_resource_group_name  = "mock-resource-group-name"
-     vnet_id                    = "mock-vnet-id"
-     vnet_name                  = "mock-vnet-name"
-     subnet_ids                 = {"host": "mock-host-subnet-ids", "container": "mock-container-subnet-ids", "privatelink": "mock-privatelink-subnet-ids"}
-     subnet_cidrs               = {"host": "mock-host-subnet-cidr", "container": "mock-container-subnet-cidr", "privatelink": "mock-privatelink-subnet-cidr"}
-   }
+  mock_outputs = {
+    resource_group_name = "mock-resource-group-name"
+    vnet_id             = "mock-vnet-id"
+    vnet_name           = "mock-vnet-name"
+    extra_subnet_ids    = {}
+  }
+}
+
+dependency "databricks-network" {
+  config_path = "../databricks/network"
+
+  mock_outputs = {
+    spoke_subnet_ids = {
+      host      = "mock-host-subnet-id"
+      container = "mock-container-subnet-id"
+    }
+    spoke_subnet_cidrs = {
+      host      = ["10.173.4.0/22"]
+      container = ["10.173.0.0/22"]
+    }
+  }
 }
 
 inputs = {
@@ -45,9 +57,9 @@ inputs = {
   hub_vnet_name             = dependency.hub.outputs.vnet_name
   hub_route_table_id        = dependency.hub.outputs.route_table_id
   hub_ipgroup_id            = dependency.hub.outputs.ipgroup_id
-  spoke_resource_group_name = dependency.spoke-workspace.outputs.azure_resource_group_name
-  spoke_vnet_id             = dependency.spoke-workspace.outputs.vnet_id
-  spoke_vnet_name           = dependency.spoke-workspace.outputs.vnet_name
-  spoke_subnet_ids          = dependency.spoke-workspace.outputs.subnet_ids
-  spoke_subnet_cidrs        = dependency.spoke-workspace.outputs.subnet_cidrs
+  spoke_resource_group_name = dependency.network.outputs.resource_group_name
+  spoke_vnet_id             = dependency.network.outputs.vnet_id
+  spoke_vnet_name           = dependency.network.outputs.vnet_name
+  spoke_subnet_ids          = dependency.databricks-network.outputs.spoke_subnet_ids
+  spoke_subnet_cidrs        = dependency.databricks-network.outputs.spoke_subnet_cidrs
 }
