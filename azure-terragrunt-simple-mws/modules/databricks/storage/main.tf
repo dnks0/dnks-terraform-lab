@@ -17,7 +17,7 @@ resource "azurerm_databricks_access_connector" "this" {
 }
 
 resource "azurerm_storage_account" "this" {
-  name                            = replace(var.prefix, "-", "")
+  name                            = local.storage_account_name
   resource_group_name             = var.resource_group_name
   location                        = var.region
   tags                            = var.tags
