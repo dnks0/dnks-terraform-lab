@@ -4,7 +4,8 @@ include "root" {
 }
 
 terraform {
-  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules/hub"
+  # `//` marks the copy root so the pattern module can reference ../_blocks.
+  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules//hub"
   # Deploy versions via git
   # source = "git::git@github.com:path/to/repo.git//path/to/module?ref=v0.0.1"
 }

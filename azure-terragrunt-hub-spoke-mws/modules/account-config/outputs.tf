@@ -14,6 +14,7 @@ output "network_connectivity_configuration_id" {
   value = length(databricks_mws_network_connectivity_config.this) > 0 ? databricks_mws_network_connectivity_config.this[0].network_connectivity_config_id : ""
 }
 
+# Empty string when serverless connectivity is disabled — stable output shape.
 output "network_policy_id" {
-  value = databricks_account_network_policy.this.network_policy_id
+  value = length(databricks_account_network_policy.this) > 0 ? databricks_account_network_policy.this[0].network_policy_id : ""
 }
