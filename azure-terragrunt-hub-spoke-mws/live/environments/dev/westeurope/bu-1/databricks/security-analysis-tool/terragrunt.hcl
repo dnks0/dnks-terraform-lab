@@ -1,0 +1,67 @@
+include "root" {
+  path   = find_in_parent_folders("root.hcl")
+  expose = true
+}
+
+terraform {
+  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules/databricks/security-analysis-tool"
+  # Deploy versions via git
+  # source = "git::git@github.com:path/to/repo.git//path/to/module?ref=v0.0.1"
+}
+
+dependency "account-config" {
+  config_path = "../../../common/account-config"
+
+  mock_outputs = {
+    metastore_id                          = "mock-metastore-id"
+    account_admin_group_id                = 00000
+    account_admin_group_name              = "mock-group-name"
+    network_connectivity_configuration_id = "mock-ncc-id"
+    network_policy_id                     = "mock-np-id"
+  }
+}
+
+dependency "workspace" {
+  config_path = "../workspace"
+
+  mock_outputs = {
+    workspace_id              = "mock-workspace-id"
+    workspace_host            = "https://mock.workspace.host"
+    workspace_name            = "mock-workspace-name"
+    azure_resource_group_name = "mock-resource-group-name"
+  }
+}
+
+dependency "workspace-config" {
+  config_path = "../workspace-config"
+
+  # sql_warehouse_id is "" when enable_default_compute is false; SAT then needs
+  # serverless (serverless = true below) or a bring-your-own warehouse.
+  mock_outputs = {
+    sql_warehouse_id = "mock-sql-warehouse-id"
+  }
+}
+
+dependency "uc" {
+  config_path = "../uc"
+
+  mock_outputs = {
+    catalog = "mock-catalog-name"
+  }
+}
+
+inputs = {
+  databricks_account_id = include.root.locals.databricks_account_id
+  arm_client_id         = include.root.locals.arm_client_id
+  arm_client_secret     = include.root.locals.arm_client_secret
+  arm_subscription_id   = include.root.locals.arm_subscription_id
+  arm_tenant_id         = include.root.locals.arm_tenant_id
+  workspace_host        = dependency.workspace.outputs.workspace_host
+  sql_warehouse_id      = dependency.workspace-config.outputs.sql_warehouse_id
+  catalog               = dependency.uc.outputs.catalog
+  admin_group           = dependency.account-config.outputs.account_admin_group_name
+  serverless            = true
+  use_sp_auth           = true
+  proxies               = {}
+  secret_scope          = "sat_scope"
+}
