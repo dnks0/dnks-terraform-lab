@@ -12,6 +12,10 @@ module "peering" {
   right_vnet_name           = var.hub_vnet_name
   right_vnet_id             = var.hub_vnet_id
   right_resource_group_name = var.hub_resource_group_name
+  # Use the hub literal (not the hub's full VNet name) to keep peering names under Azure's
+  # 80-char limit; both spoke VNet names are already long.
+  left_to_right_name = "from-${var.spoke_vnet_name}-to-hub-peering"
+  right_to_left_name = "from-hub-to-${var.spoke_vnet_name}-peering"
 }
 
 # Route the spoke's Databricks subnets through the hub firewall. Depends on the peering so
