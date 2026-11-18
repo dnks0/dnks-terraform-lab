@@ -26,5 +26,5 @@ variable "public_subnets_cidr" {
 
 variable "private_subnets_cidr" {
   type        = list(string)
-  description = "(Required) CIDR blocks for the private (Transit Gateway attachment) subnets, one per AZ"
+  description = "(Required) CIDR blocks for the private (Transit Gateway attachment) subnets, one per AZ. Must not be longer than public_subnets_cidr: entry i routes through the NAT gateway in AZ i"
 }
