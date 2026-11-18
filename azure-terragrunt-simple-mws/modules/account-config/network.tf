@@ -34,5 +34,9 @@ resource "databricks_account_network_policy" "this" {
     private_access = {
       restriction_mode = "ALLOW_ALL_REGISTERED_ENDPOINTS"
     }
+
+    cross_workspace_access = {
+      restriction_mode = "FULL_ACCESS"
+    }
   }
 }
