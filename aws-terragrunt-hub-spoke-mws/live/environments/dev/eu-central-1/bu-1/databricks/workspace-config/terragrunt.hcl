@@ -13,6 +13,12 @@ locals {
   flags = merge(include.root.locals.feature_flags, {})
 }
 
+# Ordering only (no outputs consumed): the spoke has no egress until hub-spoke-config has added
+# 0.0.0.0/0 → Transit Gateway, so default compute must not start before it.
+dependencies {
+  paths = ["../../hub-spoke-config"]
+}
+
 dependency "workspace" {
   config_path = "../workspace"
 

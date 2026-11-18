@@ -1,10 +1,11 @@
 include "root" {
-  path    = find_in_parent_folders("root.hcl")
-  expose  = true
+  path   = find_in_parent_folders("root.hcl")
+  expose = true
 }
 
 terraform {
-  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules/hub-spoke-config"
+  # `//` marks the copy root so the pattern module can reference ../_blocks.
+  source = "${dirname(find_in_parent_folders("root.hcl"))}/../modules//hub-spoke-config"
   # Deploy versions via git
   # source = "git::git@github.com:path/to/repo.git//path/to/module?ref=v0.0.1"
 }
@@ -12,36 +13,51 @@ terraform {
 dependency "hub" {
   config_path = "../../common/hub"
 
-   mock_outputs = {
-     transit_gateway_id       = "mock-tgw-id"
-     private_route_table_ids  = ["mock-private-route-table-ids"]
-     public_route_table_ids   = ["mock-public-route-table-ids"]
-   }
+  mock_outputs = {
+    vpc_id                  = "vpc-mockhub00000000"
+    vpc_cidr                = "10.10.0.0/18"
+    transit_gateway_id      = "tgw-mock00000000000"
+    private_route_table_ids = ["rtb-mockha", "rtb-mockhb", "rtb-mockhc"]
+    public_route_table_ids  = ["rtb-mockhpub"]
+  }
 }
 
-dependency "spoke-workspace" {
-  config_path = "../spoke-workspace"
+dependency "network" {
+  config_path = "../network"
 
-   mock_outputs = {
-     workspace_id             = "mock-workspace-id"
-     workspace_host           = "https://mock.workspace.host"
-     workspace_name           = "mock-workspace-name"
-     vpc_id                   = "mock-vpc-id"
-     vpc_cidr                 = "mock-vpc-cidr"
-     tgw_subnet_ids           = ["mock-tgw-subnet-ids"]
-     private_route_table_ids  = ["mock-private-route-table-ids"]
-   }
+  mock_outputs = {
+    vpc_id           = "vpc-mock00000000000"
+    vpc_cidr         = "10.173.0.0/18"
+    tgw_subnet_ids   = ["subnet-mocka", "subnet-mockb", "subnet-mockc"]
+    azs              = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
+    extra_subnet_ids = {}
+  }
+}
+
+dependency "databricks_network" {
+  config_path = "../databricks/network"
+
+  mock_outputs = {
+    network_configuration = {
+      vpc_id                  = "vpc-mock00000000000"
+      private_subnet_ids      = ["subnet-mockd", "subnet-mocke", "subnet-mockf"]
+      intra_subnet_ids        = ["subnet-mockg", "subnet-mockh", "subnet-mocki"]
+      private_route_table_ids = ["rtb-mocka", "rtb-mockb", "rtb-mockc"]
+    }
+    workspace_security_group_id = "sg-mock00000000000"
+    backend_rest_endpoint_id    = "vpce-mockrest0000000"
+    backend_relay_endpoint_id   = "vpce-mockrelay000000"
+  }
 }
 
 inputs = {
-  prefix                              = "${include.root.locals.prefix}-${include.root.locals.environment.name}-${include.root.locals.business_unit.name}-dbx"
-  region                              = include.root.locals.region.name
-  tags                                = include.root.locals.default_tags
-  hub_transit_gateway_id              = dependency.hub.outputs.transit_gateway_id
-  hub_private_route_table_ids         = dependency.hub.outputs.private_route_table_ids
-  hub_public_route_table_ids          = dependency.hub.outputs.public_route_table_ids
-  spoke_vpc_id                        = dependency.spoke-workspace.outputs.vpc_id
-  spoke_vpc_cidr                      = dependency.spoke-workspace.outputs.vpc_cidr
-  spoke_tgw_subnet_ids                = dependency.spoke-workspace.outputs.tgw_subnet_ids
-  spoke_private_route_table_ids       = dependency.spoke-workspace.outputs.private_route_table_ids
+  prefix                        = "${include.root.locals.prefix}-${include.root.locals.environment.name}-${include.root.locals.business_unit.name}-dbx"
+  tags                          = include.root.locals.default_tags
+  hub_transit_gateway_id        = dependency.hub.outputs.transit_gateway_id
+  hub_private_route_table_ids   = dependency.hub.outputs.private_route_table_ids
+  hub_public_route_table_ids    = dependency.hub.outputs.public_route_table_ids
+  spoke_vpc_id                  = dependency.network.outputs.vpc_id
+  spoke_vpc_cidr                = dependency.network.outputs.vpc_cidr
+  spoke_tgw_subnet_ids          = dependency.network.outputs.tgw_subnet_ids
+  spoke_private_route_table_ids = dependency.databricks_network.outputs.network_configuration.private_route_table_ids
 }
