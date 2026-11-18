@@ -15,7 +15,6 @@ locals {
     {
       Business-Unit = local.business_unit.name
       Environment   = local.environment.name
-      remove_after  = "2025-12-31"
     }
   )
 

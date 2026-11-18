@@ -14,13 +14,12 @@ locals {
 }
 
 inputs = {
-  prefix                       = "${include.root.locals.prefix}-dbx"
-  region                       = include.root.locals.region.name
-  tags                         = include.root.locals.default_tags
-  databricks_account_id        = include.root.locals.databricks_account_id
-  databricks_account_client_id = include.root.locals.databricks_account_client_id
-  databricks_account_admins    = [] # add account-admins if required! empty => only the deployment service principal is in the admin group
-
+  prefix                         = "${include.root.locals.prefix}-dbx"
+  region                         = include.root.locals.region.name
+  tags                           = include.root.locals.default_tags
+  databricks_account_id          = include.root.locals.databricks_account_id
+  databricks_account_client_id   = include.root.locals.databricks_account_client_id
+  databricks_account_admins      = [] # add account-admins if required! empty => only the deployment service principal is in the admin group
   enable_serverless_connectivity = local.flags.enable_serverless_connectivity
   enable_network_policy          = local.flags.enable_network_policy
   disable_legacy_features        = local.flags.disable_legacy_features
