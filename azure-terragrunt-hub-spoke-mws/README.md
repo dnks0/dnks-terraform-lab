@@ -48,7 +48,7 @@ locals {
 | Flag | Default | Purpose |
 |------|:------:|---------|
 | `enable_serverless_connectivity` | `true` | NCC + Azure Network Security Perimeter (with the `AzureDatabricksServerless` service-tag rule) + storage NSP association — lets serverless compute reach the firewalled UC storage |
-| `enable_network_policy` | `true` | Account network policy (egress `FULL_ACCESS` in `DRY_RUN`; ingress public + private) |
+| `enable_network_policy` | `true` | Account network policy (egress `FULL_ACCESS` in `DRY_RUN`; ingress public + private + cross-workspace) |
 | `enable_classic_privatelink` | `true` | Classic Private Link for the workspace: ui/api + managed-storage `dfs`/`blob` private endpoints and their private DNS zones |
 | `enable_storage_privatelink` | `true` | `dfs`/`blob` private endpoints for the UC external-location storage account |
 | `enable_default_compute` | `true` | Default serverless SQL warehouse / compute; when `false`, also removes the auto-created starter warehouse |

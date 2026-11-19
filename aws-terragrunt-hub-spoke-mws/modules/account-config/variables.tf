@@ -34,6 +34,18 @@ variable "databricks_account_admins" {
 
 variable "enable_serverless_connectivity" {
   type        = bool
-  description = "Flat to provide serverless network connectivity configuration"
+  description = "Create the serverless network connectivity configuration (NCC)"
   default     = false
+}
+
+variable "enable_network_policy" {
+  type        = bool
+  description = "Create the account network policy (egress DRY_RUN, permissive ingress)"
+  default     = false
+}
+
+variable "disable_legacy_features" {
+  type        = bool
+  description = "Disable legacy features account-wide for newly created workspaces"
+  default     = true
 }

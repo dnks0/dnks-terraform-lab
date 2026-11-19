@@ -3,47 +3,43 @@ variable "prefix" {
   description = "Prefix to use for any resources"
 }
 
-variable "region" {
-  type        = string
-  description = "The AWS region to deploy to"
-}
-
 variable "tags" {
   type        = map(string)
   description = "Optional tags to add to created resources"
+  default     = {}
 }
 
 variable "hub_transit_gateway_id" {
   type        = string
-  description = "(Required) ID of the transit-gateway in the Hub"
+  description = "(Required) ID of the hub Transit Gateway"
 }
 
 variable "hub_private_route_table_ids" {
   type        = list(string)
-  description = "(Required) ID of the transit-gateway private subnet route table in the Hub"
+  description = "(Required) Hub private (TGW attachment) route table IDs that need the spoke return route"
 }
 
 variable "hub_public_route_table_ids" {
   type        = list(string)
-  description = "(Required) The IDs for nat-gateway public subnet route tables in the Hub"
+  description = "(Required) Hub public (NAT) route table IDs that need the spoke return route"
 }
 
 variable "spoke_vpc_id" {
   type        = string
-  description = "(Required) The ID the spoke Virtual Network"
+  description = "(Required) ID of the spoke VPC"
 }
 
 variable "spoke_vpc_cidr" {
   type        = string
-  description = "(Required) The CIDR block the spoke Virtual Network"
+  description = "(Required) CIDR block of the spoke VPC"
 }
 
 variable "spoke_tgw_subnet_ids" {
   type        = list(string)
-  description = "(Required) The IDs for transit-gateway subnets in the spoke Virtual Network"
+  description = "(Required) Spoke subnets for the Transit Gateway attachment, one per AZ"
 }
 
 variable "spoke_private_route_table_ids" {
   type        = list(string)
-  description = "(Required) The IDs for transit-gateway private subnet route tables"
+  description = "(Required) Spoke private route table IDs that get the 0.0.0.0/0 → TGW egress route"
 }
